@@ -40,5 +40,14 @@ set belloff=all
 " enable backspace
 set backspace=indent,eol,start
 
+" Netrw
+let g:netrw_banner       = 0  " hide the netrw banner
+let g:netrw_liststyle    = 3  " tree view
+let g:netrw_winsize      = 20 " set netrw size to 20%
+let g:netrw_browse_split = 4  " open file in a seperate buffer
+
 " set color scheme to `desert`
 colorscheme desert
+
+" snippets
+nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>

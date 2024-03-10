@@ -15,6 +15,8 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
+" auto indent
+set autoindent
 
 " set search path to include current directory and sub-directories
 set path+=**

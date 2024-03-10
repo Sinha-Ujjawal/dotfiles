@@ -46,8 +46,12 @@ let g:netrw_liststyle    = 3  " tree view
 let g:netrw_winsize      = 20 " set netrw size to 20%
 let g:netrw_browse_split = 4  " open file in a seperate buffer
 
-" set color scheme to `desert`
-colorscheme desert
+" set color scheme to `habamax`
+colorscheme habamax
 
 " snippets
 nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
+
+" folds
+set foldmethod=indent " set the foldmethod to indent by default
+set nofoldenable      " turn off all the folds

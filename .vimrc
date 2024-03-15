@@ -32,8 +32,7 @@ set wildmenu
 " sticking the scroll to 5 lines from both top and bottom
 set scrolloff=5
 
-" set relative number and number
-set relativenumber
+" show line numbers
 set number 
 
 " disable bell
@@ -48,12 +47,22 @@ let g:netrw_liststyle    = 3  " tree view
 let g:netrw_winsize      = 20 " set netrw size to 20%
 let g:netrw_browse_split = 4  " open file in a seperate buffer
 
-" set color scheme to `habamax`
+" colors
+set t_Co=256 " allow full range of 256 colors
 colorscheme habamax
-
-" snippets
-nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
 
 " folds
 set foldmethod=indent " set the foldmethod to indent by default
 set nofoldenable      " turn off all the folds
+
+" to enable utf-8 encoding
+set encoding=utf-8
+
+" fast grep in vim
+set gp=grep\ -n
+
+" https://vi.stackexchange.com/questions/2121/how-do-i-have-buffers-listed-in-a-quickfix-window-in-vim
+command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
+
+" snippets
+nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>

@@ -67,6 +67,12 @@ command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:v
 " snippets
 nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
 
+" shortcuts
+" delete entire content of current buffer, and copy into the default (0) register
+nnoremap ,da ggdG
+" copy entire content of current buffer into * register
+nnoremap ,ca ggy"*G
+
 call plug#begin()
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'

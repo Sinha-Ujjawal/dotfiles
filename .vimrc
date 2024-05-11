@@ -72,6 +72,8 @@ nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
 nnoremap ,da ggdG
 " copy entire content of current buffer into * register
 nnoremap ,ca ggy"*G
+" trim ending spaces from each lines
+nnoremap ,ta :%s/\s\+$//<CR>
 
 call plug#begin()
 " The default plugin directory will be as follows:

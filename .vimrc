@@ -66,6 +66,14 @@ command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:v
 " snippets
 nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
 
+function! ToggleColorColumn(value)
+    if &colorcolumn != ''
+        set colorcolumn=
+    else
+        execute 'set colorcolumn=' . a:value
+    endif
+endfunction
+
 " shortcuts
 " delete entire content of current buffer, and copy into the default (0) register
 nnoremap ,da ggdG
@@ -79,6 +87,9 @@ nnoremap ,ta :%s/\s\+$//<CR>
 nnoremap ,r :set nu rnu <CR>
 " set number
 nnoremap ,n :set nornu nu <CR>
+" toggle column color
+nnoremap ,cc :call ToggleColorColumn(120) <CR>
 
 " colorscheme
 colorscheme habamax
+" colorscheme desert

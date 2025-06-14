@@ -93,3 +93,58 @@ nnoremap ,cc :call ToggleColorColumn(120) <CR>
 " colorscheme
 colorscheme habamax
 " colorscheme desert
+
+" Ale settings
+nnoremap ]a :ALENext <CR>
+nnoremap [a :ALEPrevious <CR>
+
+" " Ale linters and fixers
+let g:ale_linters = {
+\ 'python': ['ruff'],
+\}
+let g:ale_python_ruff_executable="/Users/rimjhim/Library/Python/3.9/bin/ruff"
+let g:ale_fixers = {
+\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_fix_on_save = 1
+
+" " Ale Vim-AI
+let g:vim_ai_complete = {
+\  "engine": "chat",
+\  "options": {
+\    "model": "deepseek-coder",
+\    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "initial_prompt": "You are a coding assistant. Provide clean, concise code with minimal comments. Only add comments when absolutely necessary for complex logic. Prefer self-documenting code over excessive comments.",
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "deepseek-coder",
+\    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\  },
+\}
+
+let g:vim_ai_edit = {
+\  "engine": "chat",
+\  "options": {
+\    "model": "deepseek-coder",
+\    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "initial_prompt": "Provide concise code with minimal comments. Focus on clean, readable code rather than explanatory comments.",
+\  },
+\}
+
+" Set environment variable for API key (required by the plugin)
+let $OPENAI_API_KEY = 'dummy-key-for-local-ollama'

@@ -102,7 +102,6 @@ nnoremap [a :ALEPrevious <CR>
 let g:ale_linters = {
 \ 'python': ['ruff'],
 \}
-let g:ale_python_ruff_executable="/Users/rimjhim/Library/Python/3.9/bin/ruff"
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
 \}

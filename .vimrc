@@ -91,8 +91,9 @@ nnoremap ,n :set nornu nu <CR>
 nnoremap ,cc :call ToggleColorColumn(120) <CR>
 
 " colorscheme
-colorscheme habamax
+" colorscheme habamax
 " colorscheme desert
+colorscheme industry
 
 " Ale settings
 nnoremap ]a :ALENext <CR>
@@ -104,6 +105,7 @@ let g:ale_linters = {
 \}
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+\ 'python': ['ruff_format'],
 \}
 let g:ale_fix_on_save = 1
 
@@ -111,7 +113,7 @@ let g:ale_fix_on_save = 1
 let g:vim_ai_complete = {
 \  "engine": "chat",
 \  "options": {
-\    "model": "deepseek-coder",
+\    "model": "qwen2.5-coder:3b",
 \    "endpoint_url": "http://localhost:11434/v1/chat/completions",
 \    "max_tokens": 1000,
 \    "temperature": 0.1,
@@ -125,7 +127,7 @@ let g:vim_ai_complete = {
 
 let g:vim_ai_chat = {
 \  "options": {
-\    "model": "deepseek-coder",
+\    "model": "qwen2.5-coder:3b",
 \    "endpoint_url": "http://localhost:11434/v1/chat/completions",
 \    "max_tokens": 1000,
 \    "temperature": 0.1,
@@ -136,7 +138,7 @@ let g:vim_ai_chat = {
 let g:vim_ai_edit = {
 \  "engine": "chat",
 \  "options": {
-\    "model": "deepseek-coder",
+\    "model": "qwen2.5-coder:3b",
 \    "endpoint_url": "http://localhost:11434/v1/chat/completions",
 \    "max_tokens": 1000,
 \    "temperature": 0.1,

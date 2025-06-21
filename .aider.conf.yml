@@ -1,3 +1,4 @@
 auto-commits: false
 gitignore: false
 auto-lint: true
+model: ollama_chat/qwen2.5-coder:3b

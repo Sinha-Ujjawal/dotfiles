@@ -1,0 +1,6 @@
+[submodule ".vim/pack/git-plugins/start/vim-ai"]
+	path = .vim/pack/git-plugins/start/vim-ai
+	url = https://github.com/madox2/vim-ai.git
+[submodule ".vim/pack/git-plugins/start/ale"]
+	path = .vim/pack/git-plugins/start/ale
+	url = https://github.com/dense-analysis/ale.git

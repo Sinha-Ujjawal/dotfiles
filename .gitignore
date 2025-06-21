@@ -1,6 +1,7 @@
 *
 !.aider.conf.yml
 !.vim/.skeleton.*
+!.vim/pack/git-plugins/start/*
 !.vimrc
 !.tmux.conf
 !README.md

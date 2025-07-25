@@ -52,6 +52,14 @@ function! ToggleColorColumn(value)
     endif
 endfunction
 
+" === Prepend with line numbers ===
+function! NumberLines(...)
+    let start = a:0 > 0 ? a:1 : 1 "a:0 is the count of args passed
+    let n = line('.') - line("'<") + start
+    let orig = getline('.')
+    call setline('.', n . '. ' . orig)
+endfunction
+
 " === Shortcuts ===
 nnoremap ,da ggdG                                " delete all
 nnoremap ,ca ggy"*G                              " copy all to system clipboard

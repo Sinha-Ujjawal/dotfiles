@@ -3,6 +3,8 @@ set nocompatible
 syntax on
 set encoding=utf-8
 
+set mouse=a
+
 " === Search ===
 set ignorecase
 set smartcase
@@ -17,6 +19,7 @@ set autoindent
 
 " === Tabs for Golang ===
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 " === Navigation & Display ===
 set path+=**
@@ -32,7 +35,8 @@ set nofoldenable
 
 " === Colors ===
 set t_Co=256
-colorscheme industry
+" colorscheme industry
+colorscheme zaibatsu
 
 " === Grep ===
 set gp=grep\ -n
@@ -81,6 +85,8 @@ let g:ale_lint_on_save = 1
 let g:ale_linters = {
 \   'python': ['ruff', 'pyright'],
 \   'go': ['gopls', 'golangci-lint', 'go vet', 'go build'],
+\   'c': [],
+\   'h': [],
 \}
 
 " Force using global pyright-langserver (important!)
@@ -90,6 +96,8 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['ruff_format', 'isort'],
 \   'go': ['goimports', 'gofmt'],
+\   'c': [],
+\   'h': [],
 \}
 
 let g:ale_disable_lsp = 0

@@ -4,3 +4,6 @@
 [submodule ".vim/pack/git-plugins/start/ale"]
 	path = .vim/pack/git-plugins/start/ale
 	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim/pack/git-plugins/start/tabular"]
+	path = .vim/pack/git-plugins/start/tabular
+	url = https://github.com/godlygeek/tabular.git

@@ -96,8 +96,8 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['ruff_format', 'isort'],
 \   'go': ['goimports', 'gofmt'],
-\   'c': [],
-\   'h': [],
+\   'c': ["clang-format"],
+\   'h': ["clang-format"],
 \}
 
 let g:ale_disable_lsp = 0

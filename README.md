@@ -10,3 +10,4 @@ Configuration files for tools I use.
 Also, I have some started project config files
 
 - Starter [Pyright](https://github.com/microsoft/pyright) Config file: [pyrightconfig.json](./pyrightconfig.json)
+- Starter [Clang-format](https://clang.llvm.org/docs/ClangFormat.html) Config file: [.clang-format](./.clang-format)

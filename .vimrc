@@ -81,12 +81,21 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_save = 1
+let g:ale_completion_enabled = 0
+let g:ale_completion_show_preview = 1
+set omnifunc=ale#completion#OmniFunc
+
+" Show hover docs in preview window
+nmap <silent> K :ALEHover<CR>
 
 let g:ale_linters = {
 \   'python': ['ruff', 'pyright'],
 \   'go': ['gopls', 'golangci-lint', 'go vet', 'go build'],
+\   'rust': ['rustc'],
 \   'c': [],
 \   'h': [],
+\   'asm': [],
+\   'dockerfile': ['hadolint'],
 \}
 
 " Force using global pyright-langserver (important!)
@@ -94,8 +103,9 @@ let g:ale_python_pyright_use_global = 1
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['ruff_format', 'isort'],
+\   'python': ['isort', 'ruff_format'],
 \   'go': ['goimports', 'gofmt'],
+\   'rust': ['rustfmt'],
 \   'c': ["clang-format"],
 \   'h': ["clang-format"],
 \}

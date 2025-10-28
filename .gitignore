@@ -3,6 +3,7 @@
 !.vim/.skeleton.*
 !.vim/pack/git-plugins/start/*
 !.vimrc
+!.config/nvim/init.vim
 !.tmux.conf
 !README.md
 !pyrightconfig.json

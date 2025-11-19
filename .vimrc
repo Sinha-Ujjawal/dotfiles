@@ -36,7 +36,8 @@ set nofoldenable
 " === Colors ===
 set t_Co=256
 " colorscheme industry
-colorscheme zaibatsu
+" colorscheme zaibatsu
+colorscheme GruberDarker
 
 " === Grep ===
 set gp=grep\ -n

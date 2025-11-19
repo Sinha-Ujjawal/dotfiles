@@ -8,3 +8,5 @@
 !README.md
 !pyrightconfig.json
 !.clang-format
+!.vim/colors/
+!.config/nvim/colors/

@@ -34,10 +34,20 @@ set foldmethod=indent
 set nofoldenable
 
 " === Colors ===
+if has("termguicolors")
+  set termguicolors
+endif
+
 set t_Co=256
-" colorscheme industry
-" colorscheme zaibatsu
-colorscheme GruberDarker
+set background=dark
+for cs in ['GruberDarker', 'zaibatsu', 'industry', 'habamax']
+  try
+    execute 'colorscheme ' . cs
+    break
+  catch /^Vim\%((\a\+)\)\=:E185/
+    " not found → try next
+  endtry
+endfor
 
 " === Grep ===
 set gp=grep\ -n

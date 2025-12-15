@@ -17,9 +17,10 @@ set shiftwidth=4
 set expandtab
 set autoindent
 
-" === Tabs for Golang ===
+" === Tabs for Golang, Make and Lua ===
 autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType lua setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 " === Navigation & Display ===
 set path+=**
@@ -107,6 +108,7 @@ let g:ale_linters = {
 \   'h': [],
 \   'asm': [],
 \   'dockerfile': ['hadolint'],
+\   'lua': ['lua_language_server'],
 \}
 
 " Force using global pyright-langserver (important!)
@@ -117,8 +119,9 @@ let g:ale_fixers = {
 \   'python': ['isort', 'ruff_format'],
 \   'go': ['goimports', 'gofmt'],
 \   'rust': ['rustfmt'],
-\   'c': ["clang-format"],
-\   'h': ["clang-format"],
+\   'c': [],
+\   'h': [],
+\   'lua': ['stylua'],
 \}
 
 let g:ale_disable_lsp = 0

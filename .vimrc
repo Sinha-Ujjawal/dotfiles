@@ -109,6 +109,11 @@ let g:ale_linters = {
 \   'asm': [],
 \   'dockerfile': ['hadolint'],
 \   'lua': ['lua_language_server'],
+\   'scala': [],
+\}
+
+let g:ale_linters_ignore = {
+\   'scala': ['*'],
 \}
 
 " Force using global pyright-langserver (important!)
@@ -122,9 +127,37 @@ let g:ale_fixers = {
 \   'c': [],
 \   'h': [],
 \   'lua': ['stylua'],
+\   'scala': ['scalafmt'],
 \}
 
 let g:ale_disable_lsp = 0
 
 let g:ale_go_golangci_lint_executable = 'golangci-lint'
 let g:ale_go_golangci_lint_options = '--fast'
+
+" === Vim LSP Configuration ===
+packadd vim-lsp
+
+if executable('metals')
+  call lsp#register_server({
+        \ 'name': 'metals',
+        \ 'cmd': {-> ['metals', '-Dmetals.http=off']},
+        \ 'allowlist': ['scala'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+  " Enable omni completion for Scala (Metals)
+  setlocal omnifunc=lsp#complete
+
+  " ALE-compatible keybindings (Scala only)
+  nnoremap <buffer> ]a :LspNextDiagnostic<CR>
+  nnoremap <buffer> [a :LspPreviousDiagnostic<CR>
+  nnoremap <buffer> K  :LspHover<CR>
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END

@@ -4,3 +4,6 @@
 [submodule ".vim/pack/git-plugins/start/tabular"]
 	path = .vim/pack/git-plugins/start/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule ".vim/pack/git-plugins/start/vim-lsp"]
+	path = .vim/pack/git-plugins/start/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp.git

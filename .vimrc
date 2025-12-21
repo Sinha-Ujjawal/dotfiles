@@ -31,6 +31,9 @@ autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType make setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType lua setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
+" === 2 Spaces for Scala ===
+autocmd FileType scala setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+
 " === Navigation & Display ===
 set path+=**
 set wildmenu
@@ -96,6 +99,7 @@ nnoremap ,cc :call ToggleColorColumn(120) <CR>   " toggle 120-col guide
 " === ALE Navigation ===
 nnoremap ]a :ALENext <CR>
 nnoremap [a :ALEPrevious <CR>
+nnoremap gD :ALEGoToDefinition <CR>
 
 " === ALE Configuration ===
 let g:ale_fix_on_save = 1
@@ -163,6 +167,7 @@ function! s:on_lsp_buffer_enabled() abort
   nnoremap <buffer> ]a :LspNextDiagnostic<CR>
   nnoremap <buffer> [a :LspPreviousDiagnostic<CR>
   nnoremap <buffer> K  :LspHover<CR>
+  nnoremap <buffer>gD  :LspDefinition<CR>
 endfunction
 
 augroup lsp_install

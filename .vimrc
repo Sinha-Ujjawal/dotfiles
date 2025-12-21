@@ -4,6 +4,15 @@ syntax on
 set encoding=utf-8
 
 set mouse=a
+if !has("nvim")
+    " To enable mouse drag for vim inside tmux
+    " Neovim already works just fine
+    if has("mouse_sgr")
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
 
 " === Search ===
 set ignorecase

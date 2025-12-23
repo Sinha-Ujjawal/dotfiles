@@ -69,7 +69,19 @@ set gp=grep\ -n
 command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
 " === Snippet Insertion ===
-nnoremap ,mit :-1read $HOME/.vim/.skeleton.mit<CR>ggwcf>
+nnoremap ,mit :-1read $HOME/.vim/snippets/mit<CR>ggwcf>
+function! InsertDocSnippet()
+  let l:ft = &filetype
+  let l:snippet = expand('~/.vim/snippets/' . l:ft . '.doc')
+
+  if filereadable(l:snippet)
+    execute 'read ' . fnameescape(l:snippet)
+    normal! k
+  else
+    echo 'No doc snippet for ' . l:ft
+  endif
+endfunction
+nnoremap ,doc :call InsertDocSnippet()<CR>
 
 " === Toggle Color Column ===
 function! ToggleColorColumn(value)
@@ -140,7 +152,7 @@ let g:ale_fixers = {
 \   'c': [],
 \   'h': [],
 \   'lua': ['stylua'],
-\   'scala': ['scalafmt'],
+\   'scala': [],
 \}
 
 let g:ale_disable_lsp = 0

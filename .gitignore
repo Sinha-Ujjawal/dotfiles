@@ -1,6 +1,6 @@
 *
 !.aider.conf.yml
-!.vim/.skeleton.*
+!.vim/snippets/*
 !.vim/pack/git-plugins/start/*
 !.vimrc
 !.tmux.conf

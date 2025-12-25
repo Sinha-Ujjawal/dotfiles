@@ -1,0 +1,4 @@
+address=0.0.0.0
+enable_auth=true
+username=root
+password=root

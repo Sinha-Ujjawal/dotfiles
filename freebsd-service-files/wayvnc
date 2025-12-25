@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# PROVIDE: wayvnc
+# REQUIRE: sway
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="wayvnc"
+rcvar="wayvnc_enable"
+
+start_cmd="wayvnc_start"
+stop_cmd="wayvnc_stop"
+status_cmd="wayvnc_status"
+
+load_rc_config $name
+
+: ${wayvnc_enable="NO"}
+: ${wayvnc_command="/usr/local/bin/wayvnc"}
+: ${wayvnc_daemon_pidfile="/var/run/wayvnc_daemon.pid"}
+: ${wayvnc_program_pidfile="/var/run/wayvnc_program.pid"}
+: ${config="${wayvnc_config:-/usr/local/etc/wayvnc/config}"}
+: ${WAYLAND_DISPLAY="${wayvnc_wayland_display:-wayland-1}"}
+
+wayvnc_start() {
+    set -x
+    echo "Starting $name"
+    export WAYLAND_DISPLAY="$WAYLAND_DISPLAY"
+    export XDG_RUNTIME_DIR="/var/run/xdg/root"
+
+    rm -f "$XDG_RUNTIME_DIR/wayvncctl"
+
+    /usr/sbin/daemon -r -P "$wayvnc_daemon_pidfile" -p "$wayvnc_program_pidfile" -- $wayvnc_command -C "$config" >/dev/null 2>&1 &
+
+    set +x
+}
+
+wayvnc_stop() {
+    set -x
+    echo "Stopping $name"
+
+    local daemon_pid=""
+    if [ -f "$wayvnc_daemon_pidfile" ]; then
+        daemon_pid=$(cat "$wayvnc_daemon_pidfile")
+    fi
+
+    local program_pid=""
+    if [ -f "$wayvnc_program_pidfile" ]; then
+        program_pid=$(cat "$wayvnc_program_pidfile")
+    fi
+
+    kill -9 $daemon_pid $program_pid >/dev/null 2>&1
+
+    rm -f "$wayvnc_daemon_pidfile"
+    rm -f "$wayvnc_program_pidfile"
+
+    set +x
+}
+
+wayvnc_status() {
+    set -x
+
+    if [ -f "$wayvnc_daemon_pidfile" ]; then
+        echo "$name is running"
+    else
+        echo "$name is not running"
+    fi
+
+    set +x
+}
+
+run_rc_command $1
+

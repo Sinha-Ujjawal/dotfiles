@@ -11,3 +11,5 @@
 !.config/nvim/init.vim
 !.config/nvim/colors/
 !.config/nvim/pack/
+!usr/
+!freebsd-service-files/

@@ -14,6 +14,18 @@ if !has("nvim")
     endif
 endif
 
+" Check if running in Wayland and wl-clipboard is installed
+if !empty($WAYLAND_DISPLAY) && executable('wl-copy') && executable('wl-paste')
+    " Yank visual selection to Wayland clipboard
+    xnoremap "*y y:call system("wl-copy", @")<cr>
+    xnoremap "+y y:call system("wl-copy", @")<cr>
+
+    " Paste from Wayland clipboard
+    " substitute() removes potential trailing carriage returns (\r) often added by GTK apps
+    nnoremap "*p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<cr>p
+    nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<cr>p
+endif
+
 " === Search ===
 set ignorecase
 set smartcase

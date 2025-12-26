@@ -2,7 +2,6 @@
 
 # PROVIDE: sway
 # REQUIRE: dbus
-# REQUIRE: pulseaudio
 # KEYWORD: shutdown
 
 . /etc/rc.subr

@@ -1,8 +1,8 @@
 # Steps to install Wayvnc and Sway on FreeBSD
 
-1. Installing Wayland, Sway, Wayvnc and Pulseaudio
+1. Installing Wayland, Sway and Wayvnc
 ```console
-# pkg install wayland sway wmenu foot xorg-fonts wayvnc pulseaudio
+# pkg install wayland sway wmenu foot xorg-fonts wayvnc
 ```
 
 2. Edit Sway Config. Change `set $mod Mod4` to `set $mod Ctrl`
@@ -27,33 +27,22 @@ dbus_enable:  -> YES
 
 5. At this point we are ready to use Sway and Wayvnc, but Let's create a nice service to make it easier.
 
-6. Create a new file `/usr/local/etc/rc.d/pulseaudio` with following [content](./pulseaudio)
+6. Create a new file `/usr/local/etc/rc.d/wayvnc` with following [content](./wayvnc)
 
 7. Create a new file `/usr/local/etc/rc.d/wayvnc` with following [content](./wayvnc)
 
-8. Create a new file `/usr/local/etc/rc.d/wayvnc` with following [content](./wayvnc)
-
-9. Make the files executable.
+8. Make the files executable.
 ```console
-# chmod +x /usr/local/etc/rc.d/pulseaudio /usr/local/etc/rc.d/sway /usr/local/etc/rc.d/wayvnc
+# chmod +x /usr/local/etc/rc.d/sway /usr/local/etc/rc.d/wayvnc
 ```
 
-10. Enable and start the services.
+9. Enable and start the services.
 ```console
-# sysrc pulseaudio_enable=YES
-pulseaudio_enable:  -> YES
-
 # sysrc sway_enable=YES
 sway_enable:  -> YES
 
 # sysrc wayvnc_enable=YES
 wayvnc_enable:  -> YES
-
-# service pulseaudio start
-+ echo 'Starting pulseaudio'
-Starting pulseaudio
-+ set +x
-+ /usr/sbin/daemon -r -P /var/run/pulseaudio_daemon.pid -p /var/run/pulseaudio_program.pid -- /usr/local/bin/pulseaudio --start
 
 # service sway start
 + echo 'Starting sway'
@@ -79,17 +68,18 @@ Starting wayvnc
 + /usr/sbin/daemon -r -P /var/run/wayvnc_daemon.pid -p /var/run/wayvnc_program.pid -- /usr/local/bin/wayvnc -C /usr/local/etc/wayvnc/config
 ```
 
-11. Connect with VNC Viewer to the host machine, and then open the terminal (Ctrl + Enter). It will open the foot terminal. Then inside the terminal hold Ctrl+Shift and two fingers on the trackpad to increase the font size. Then execute below commands to set the resolution
+10. Connect with VNC Viewer to the host machine, and then open the terminal (Ctrl + Enter). It will open the foot terminal. Then inside the terminal hold Ctrl+Shift and two fingers on the trackpad to increase the font size. Then execute below commands to set the resolution
 ```console
 # swaymsg output HEADLESS-1 mode 1640x1000
 ```
 
-12. Execute below command to make audio work. If `cat /dev/sndstat` does not show you devices. After running below command run `cat /dev/sndstat` again to see if any device is getting recognized.
+11. Execute below command to make audio work. If `cat /dev/sndstat` does not show you devices. After running below command run `cat /dev/sndstat` again to see if any device is getting recognized.
 ```console
 # sudo kldload snd_hda
 ```
 
-13. Add below line to `/boot/loader.conf` to detect the sound hardware automatically after every restart.
+12. Add below line to `/boot/loader.conf` to detect the sound hardware automatically after every restart.
 ```bash
+sound_load="YES"
 snd_hda_load="YES"
 ```

@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# PROVIDE: pulseaudio
+# REQUIRE: dbus
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="pulseaudio"
+rcvar="pulseaudio_enable"
+
+start_cmd="pulseaudio_start"
+stop_cmd="pulseaudio_stop"
+status_cmd="pulseaudio_status"
+
+load_rc_config $name
+
+: ${pulseaudio_enable="NO"}
+: ${pulseaudio_command="/usr/local/bin/pulseaudio --start"}
+: ${pulseaudio_daemon_pidfile="/var/run/pulseaudio_daemon.pid"}
+: ${pulseaudio_program_pidfile="/var/run/pulseaudio_program.pid"}
+
+pulseaudio_start() {
+    set -x
+    echo "Starting $name"
+    sudo kldload snd_hda  # For detecting the sound hardware
+    /usr/sbin/daemon -P "$pulseaudio_daemon_pidfile" -p "$pulseaudio_program_pidfile" -- $pulseaudio_command >/dev/null 2>&1 &
+    set +x
+}
+
+pulseaudio_stop() {
+    set -x
+    echo "Stopping $name"
+
+    local daemon_pid=""
+    if [ -f "$pulseaudio_daemon_pidfile" ]; then
+        daemon_pid=$(cat "$pulseaudio_daemon_pidfile")
+    fi
+
+    local program_pid=""
+    if [ -f "$pulseaudio_program_pidfile" ]; then
+        program_pid=$(cat "$pulseaudio_program_pidfile")
+    fi
+
+    kill -9 $daemon_pid $program_pid >/dev/null 2>&1
+
+    rm -f "$pulseaudio_daemon_pidfile"
+    rm -f "$pulseaudio_program_pidfile"
+
+    set +x
+}
+
+pulseaudio_status() {
+    set -x
+
+    if [ -f "$pulseaudio_daemon_pidfile" ]; then
+        echo "$name is running"
+    else
+        echo "$name is not running"
+    fi
+
+    set +x
+}
+
+run_rc_command $1

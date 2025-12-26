@@ -15,6 +15,7 @@ set $up    k
 set $right l
 # Your preferred terminal emulator
 set $term foot
+set $browser firefox
 # Your preferred application launcher
 set $menu wmenu-run
 
@@ -69,6 +70,9 @@ output HEADLESS-1 mode 2560x1664 scale 2
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+
+    # Start a browser
+    bindsym $mod+Shift+f exec $browser
 
     # Kill focused window
     bindsym $mod+Shift+q kill

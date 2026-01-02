@@ -2,6 +2,7 @@
 set nocompatible
 syntax on
 set encoding=utf-8
+set hidden " To enable buffer switching without the necessaity to save.
 
 set mouse=a
 if !has("nvim")
@@ -113,12 +114,14 @@ function! NumberLines(...)
 endfunction
 
 " === Shortcuts ===
-nnoremap ,da ggdG                                " delete all
-nnoremap ,ca ggy"*G                              " copy all to system clipboard
-nnoremap ,ta :%s/\s\+$//<CR>                     " trim trailing whitespace
-nnoremap ,r :set nu rnu <CR>                     " relative line numbers
-nnoremap ,n :set nornu nu <CR>                   " absolute line numbers
-nnoremap ,cc :call ToggleColorColumn(120) <CR>   " toggle 120-col guide
+nnoremap ,da ggdG                                                    " delete all
+nnoremap ,ca ggy"*G                                                  " copy all to system clipboard
+nnoremap ,ta :%s/\s\+$//<CR>                                         " trim trailing whitespace
+nnoremap ,r :set nu rnu <CR>                                         " relative line numbers
+nnoremap ,n :set nornu nu <CR>                                       " absolute line numbers
+nnoremap ,cc :call ToggleColorColumn(120) <CR>                       " toggle 120-col guide
+nnoremap ,cf :let @+=expand("%:p") <bar> let @"=expand("%:p") <CR>   " copies the current buffers absolute location to '+' and '"' registers
+nnoremap ,cr :let @+=expand("%")   <bar> let @"=expand("%")   <CR>   " copies the current buffers relative location to '+' and '"' registers
 
 " === ALE Navigation ===
 nnoremap ]a :ALENext <CR>

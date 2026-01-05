@@ -14,6 +14,16 @@ confirm_and_link() {
     local target="$2"
     local is_dir="$3"
 
+    # Check if the target is already a symlink pointing to the correct source
+    if [[ -L "$target" ]]; then
+        local current_link
+        current_link=$(readlink "$target")
+        if [[ "$current_link" == "$source" ]]; then
+            echo "SKIPPED: $target is already correctly linked to $source."
+            return 0
+        fi
+    fi
+
     echo ""
     echo "Task: Link $target"
     echo "Commands to be executed:"

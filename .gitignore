@@ -13,3 +13,4 @@
 !.config/nvim/pack/
 !usr/
 !freebsd-service-files/
+!setup.sh

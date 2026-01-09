@@ -8,21 +8,21 @@ setopt PROMPT_SUBST
 
 MODE=""
 
-function zle-keymap-select {
+function set-prompt-var {
   case $KEYMAP in
-    vicmd) MODE="[NORMAL] " ;;
-    *)     MODE="" ;;
+    vicmd) PROMPT='[NORMAL] %~$ ' ;;
+    *)     PROMPT='%~$ ' ;;
   esac
-  zle reset-prompt
 }
 
+function zle-keymap-select {
+  set-prompt-var
+  zle reset-prompt
+}
 zle -N zle-keymap-select
 
 function precmd {
-  case $KEYMAP in
-    vicmd) MODE="[NORMAL] " ;;
-    *)     MODE="" ;;
-  esac
+  set-prompt-var
 }
 
 # Ensure that Ctrl-l works in vi-mode
@@ -31,7 +31,7 @@ bindkey '^l' clear-screen
 # Ensure that Ctrl-R (search reverse history) works in vi-mode
 bindkey '^R' history-incremental-search-backward
 
-PROMPT="${MODE}%~$ "
+PROMPT='%~$ '
 
 # Disable all bells
 setopt NO_BEEP

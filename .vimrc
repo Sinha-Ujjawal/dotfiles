@@ -33,6 +33,70 @@ set smartcase
 set incsearch
 set hlsearch
 
+" Get escaped search pattern from visual selection (supports multi-line)
+function! s:GetVisualPattern() abort
+    " Save register and clipboard
+    let l:save_reg  = @"
+    let l:save_clip = &clipboard
+    set clipboard=
+
+    " Yank visual selection
+    silent normal! gvy
+    let l:pattern = @"
+
+    " Restore register and clipboard
+    let @" = l:save_reg
+    let &clipboard = l:save_clip
+
+    " Remove trailing newline
+    let l:pattern = substitute(l:pattern, '\n\%$', '', '')
+
+    " Escape regex characters
+    let l:pattern = escape(l:pattern, '\.^$~[]*\/')
+
+    " Convert newlines to multi-line whitespace match
+    let l:pattern = substitute(l:pattern, '\n', '\\_s\\+', 'g')
+
+    return l:pattern
+endfunction
+
+" Prompt for directory, defaulting to cwd
+function! s:PromptDir() abort
+    let l:dir = input('Search directory: ', getcwd(), 'dir')
+    return empty(l:dir) ? '' : l:dir
+endfunction
+
+function! SearchInBuffer() range
+    let l:pattern = s:GetVisualPattern()
+    if empty(l:pattern)
+        return
+    endif
+
+    let @/ = l:pattern
+    normal! n
+endfunction
+
+function! SearchInFolder() range
+    let l:pattern = s:GetVisualPattern()
+    if empty(l:pattern)
+        return
+    endif
+
+    let l:dir = s:PromptDir()
+    if empty(l:dir)
+        echo "Search cancelled"
+        return
+    endif
+
+    " Clear old results
+    call setqflist([])
+
+    " Recursive search
+    execute 'vimgrep /' . l:pattern . '/j ' . fnameescape(l:dir) . '/**/*'
+
+    copen
+endfunction
+
 " === Indentation: Default to 4 spaces ===
 set tabstop=4
 set shiftwidth=4

@@ -25,7 +25,8 @@ function precmd {
 # Ensure that Ctrl-l works in vi-mode
 bindkey '^l' clear-screen
 
-PROMPT="%~
+PROMPT="
+%~
 ${MODE}$ "
 
 # Disable all bells

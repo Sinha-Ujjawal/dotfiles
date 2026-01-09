@@ -12,7 +12,7 @@ bind -m vi-insert  '\C-l: clear-screen'
 bind -m vi-command '\C-l: clear-screen'
 
 # --- Simple, identical prompt ---
-PS1='\n\w\n$ '
+PS1='\w$ '
 
 # Disable terminal bell
 bind 'set bell-style none'

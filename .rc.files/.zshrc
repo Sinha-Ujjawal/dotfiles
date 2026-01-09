@@ -22,5 +22,8 @@ function precmd {
   esac
 }
 
+# Ensure that Ctrl-l works in vi-mode
+bindkey '^l' clear-screen
+
 # Disable all bells
 setopt NO_BEEP

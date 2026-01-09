@@ -2,6 +2,7 @@
 set -o vi
 
 # --- Show vi mode in prompt ---
+bind 'set keyseq-timeout 10'
 bind 'set show-mode-in-prompt on'
 bind 'set vi-ins-mode-string "[INSERT] "'
 bind 'set vi-cmd-mode-string "[NORMAL] "'

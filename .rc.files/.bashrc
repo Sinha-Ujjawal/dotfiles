@@ -15,4 +15,4 @@ bind -m vi-command '\C-l: clear-screen'
 PS1='\w\n$ '
 
 # Disable terminal bell
-set -o bell-style none
+bind 'set bell-style none'

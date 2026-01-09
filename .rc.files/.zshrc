@@ -25,5 +25,8 @@ function precmd {
 # Ensure that Ctrl-l works in vi-mode
 bindkey '^l' clear-screen
 
+PROMPT="${MODE}%~
+$ "
+
 # Disable all bells
 setopt NO_BEEP

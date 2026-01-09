@@ -1,3 +1,6 @@
+current_dir="$(cd "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$current_dir/common.sh"
+
 # --- Enable vi mode ---
 set -o vi
 

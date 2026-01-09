@@ -15,3 +15,4 @@
 !freebsd-service-files/
 !setup.sh
 !.rc.files/.*rc
+!.rc.files/*.sh

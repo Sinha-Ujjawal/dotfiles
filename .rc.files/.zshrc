@@ -25,6 +25,9 @@ function precmd {
 # Ensure that Ctrl-l works in vi-mode
 bindkey '^l' clear-screen
 
+# Ensure that Ctrl-R (search reverse history) works in vi-mode
+bindkey '^R' history-incremental-search-backward
+
 PROMPT="${MODE}%~$ "
 
 # Disable all bells

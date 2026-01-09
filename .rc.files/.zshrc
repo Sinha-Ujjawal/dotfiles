@@ -3,12 +3,12 @@ bindkey -v
 KEYTIMEOUT=1
 setopt PROMPT_SUBST
 
-MODE="[INSERT] "
+MODE=""
 
 function zle-keymap-select {
   case $KEYMAP in
     vicmd) MODE="[NORMAL] " ;;
-    *)     MODE="[INSERT] " ;;
+    *)     MODE="" ;;
   esac
   zle reset-prompt
 }
@@ -18,7 +18,7 @@ zle -N zle-keymap-select
 function precmd {
   case $KEYMAP in
     vicmd) MODE="[NORMAL] " ;;
-    *)     MODE="[INSERT] " ;;
+    *)     MODE="" ;;
   esac
 }
 

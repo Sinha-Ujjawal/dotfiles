@@ -1,3 +1,6 @@
+let g:is_vim8 = v:version >= 800
+let g:has_packages = has('packages') && g:is_vim8
+
 " === Basic Settings ===
 set nocompatible
 syntax on
@@ -187,12 +190,30 @@ nnoremap ,cc :call ToggleColorColumn(120) <CR>                       " toggle 12
 nnoremap ,cf :let @+=expand("%:p") <bar> let @"=expand("%:p") <CR>   " copies the current buffers absolute location to '+' and '"' registers
 nnoremap ,cr :let @+=expand("%")   <bar> let @"=expand("%")   <CR>   " copies the current buffers relative location to '+' and '"' registers
 
-" === ALE Navigation ===
+" === Loading Packages
+" Loading Packages
+if g:has_packages
+    packadd ale
+    packadd vim-lsp
+else
+    for dir in split(glob('~/.vim/pack/*/start/*'), '\n')
+        if isdirectory(dir)
+            execute 'set runtimepath+=' . dir
+        endif
+    endfor
+endif
+" Loading Helptags
+for dir in split(glob('~/.vim/pack/*/start/*/doc'), '\n')
+    if isdirectory(dir)
+        execute 'silent! helptags ' . dir
+    endif
+endfor
+
+" === ALE Configuration ===
 nnoremap ]a :ALENext <CR>
 nnoremap [a :ALEPrevious <CR>
 nnoremap gD :ALEGoToDefinition <CR>
 
-" === ALE Configuration ===
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 1
@@ -240,8 +261,6 @@ let g:ale_go_golangci_lint_executable = 'golangci-lint'
 let g:ale_go_golangci_lint_options = '--fast'
 
 " === Vim LSP Configuration ===
-packadd vim-lsp
-
 if executable('metals')
   call lsp#register_server({
         \ 'name': 'metals',

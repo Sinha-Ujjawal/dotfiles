@@ -193,19 +193,23 @@ nnoremap ,cr :let @+=expand("%")   <bar> let @"=expand("%")   <CR>   " copies th
 nnoremap ,s :<C-u>call gitblame#echo()<CR>                           " showing git blame output in status bar (from https://github.com/zivyangll/git-blame.vim?tab=readme-ov-file#please-setting-bindings)
 
 " === Loading Packages
+let s:vim_dir = expand('~/.vim')
+if has('nvim')
+    let &packpath = s:vim_dir . ',' . &packpath
+endif
 " Loading Packages
 if g:has_packages
-    packadd ale
-    packadd vim-lsp
+    silent! packadd ale
+    silent! packadd vim-lsp
 else
-    for dir in split(glob('~/.vim/pack/*/start/*'), '\n')
+    for dir in split(globpath(s:vim_dir, 'pack/*/start/*'), '\n')
         if isdirectory(dir)
             execute 'set runtimepath+=' . dir
         endif
     endfor
 endif
 " Loading Helptags
-for dir in split(glob('~/.vim/pack/*/start/*/doc'), '\n')
+for dir in split(globpath(s:vim_dir, 'pack/*/start/*/doc'), '\n')
     if isdirectory(dir)
         execute 'silent! helptags ' . dir
     endif

@@ -6,6 +6,7 @@ set nocompatible
 syntax on
 set encoding=utf-8
 set hidden " To enable buffer switching without the necessaity to save.
+set laststatus=2 " To show status bar
 
 set mouse=a
 if !has("nvim")
@@ -189,6 +190,7 @@ nnoremap ,n :set nornu nu <CR>                                       " absolute 
 nnoremap ,cc :call ToggleColorColumn(120) <CR>                       " toggle 120-col guide
 nnoremap ,cf :let @+=expand("%:p") <bar> let @"=expand("%:p") <CR>   " copies the current buffers absolute location to '+' and '"' registers
 nnoremap ,cr :let @+=expand("%")   <bar> let @"=expand("%")   <CR>   " copies the current buffers relative location to '+' and '"' registers
+nnoremap ,s :<C-u>call gitblame#echo()<CR>                           " showing git blame output in status bar (from https://github.com/zivyangll/git-blame.vim?tab=readme-ov-file#please-setting-bindings)
 
 " === Loading Packages
 " Loading Packages

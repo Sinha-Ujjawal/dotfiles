@@ -28,3 +28,6 @@ git submodule update --init --recursive
 ```
 
 - Run [setup.sh](./setup.sh) file to quickly setup on MacOS and Linux. Note that, I haven't tested this script on Windows or other OSs.
+```console
+yes | bash setup.sh
+```

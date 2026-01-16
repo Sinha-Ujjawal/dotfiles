@@ -70,5 +70,8 @@ confirm_and_link "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf" false
 # 5. .aider.conf.yml
 confirm_and_link "$DOTFILES_DIR/.aider.conf.yml" "$HOME/.aider.conf.yml" false
 
+# 6. GDB config directory
+confirm_and_link "$DOTFILES_DIR/.config/gdb" "$HOME/.config/gdb" true
+
 echo ""
 echo "Setup process finished."

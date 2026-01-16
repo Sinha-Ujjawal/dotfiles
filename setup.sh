@@ -72,6 +72,7 @@ confirm_and_link "$DOTFILES_DIR/.aider.conf.yml" "$HOME/.aider.conf.yml" false
 
 # 6. GDB config directory
 confirm_and_link "$DOTFILES_DIR/.config/gdb" "$HOME/.config/gdb" true
+confirm_and_link "$DOTFILES_DIR/.config/gdb/gdbinit" "$HOME/.gdbinit" true
 
 echo ""
 echo "Setup process finished."

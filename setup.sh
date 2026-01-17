@@ -175,6 +175,12 @@ if [[ ! -f "$HOME/.inputrc" ]]; then
 fi
 append_if_missing "$HOME/.inputrc"  "\$include $DOTFILES_DIR/.rc.files/.inputrc"
 
+# 8. Appending to ~/.editrc
+if [[ ! -f "$HOME/.editrc" ]]; then
+    touch "$HOME/.editrc"
+fi
+append_if_missing "$HOME/.editrc"  "$(cat "$DOTFILES_DIR/.rc.files/.editrc")"
+
 set -e
 ensure_source_line "$HOME/.bashrc" "source $DOTFILES_DIR/.rc.files/.bashrc"
 ensure_source_line "$HOME/.zshrc"  "source $DOTFILES_DIR/.rc.files/.zshrc"

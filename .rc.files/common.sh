@@ -1,3 +1,13 @@
+#!/usr/bin/env bash
+
+# My Aliases
+alias gdb="gdb -q"
+case "$(uname -s)" in
+    Darwin)
+        alias ldd='otool -L'
+        ;;
+esac
+
 touchx() {
     local touch_args=()
     local files=()

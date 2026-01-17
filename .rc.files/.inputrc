@@ -1,0 +1,18 @@
+# Enable vi editing mode
+set editing-mode vi
+
+# Show mode in the prompt (insert / command)
+set show-mode-in-prompt on
+
+# Minimal, portable mode indicators
+set vi-ins-mode-string ""
+set vi-cmd-mode-string "[NORMAL] "
+
+# Make ESC switch modes instantly (no timeout delay)
+set keyseq-timeout 1
+
+# Disable terminal bell
+set bell-style none
+
+# Ensure that Ctrl-l works in vi-mode
+"\C-l": clear-screen

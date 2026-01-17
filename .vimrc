@@ -291,3 +291,27 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" Special yank useful when ssh into a server
+" Reference: https://andrewbrookins.com/technology/copying-to-the-ios-clipboard-over-ssh-with-control-codes/
+" copy to attached terminal using the yank(1) script:
+" https://github.com/sunaku/home/blob/master/bin/yank
+" Function to pipe text to the 'yank' utility
+function! Yank(text) abort
+  " We wrap 'yank' in 'bash -ci' so Vim can find your .bashrc function
+  " Alternatively, if you saved 'yank' as a file in /usr/local/bin,
+  " you can just use 'yank'
+  let l:cmd = "bash -ci 'yank'"
+  let l:escape = system(l:cmd, a:text)
+
+  if v:shell_error
+    echoerr l:escape
+  else
+    " Write the escape sequence directly to the terminal TTY
+    " This bypasses Vim's internal clipboard and talks to iTerm2
+    call writefile([l:escape], '/dev/tty', 'b')
+  endif
+endfunction
+
+" Map Ctrl+c in Visual mode to yank the selection to Mac
+vnoremap <silent> <C-c> "0y:call Yank(@0)<CR>

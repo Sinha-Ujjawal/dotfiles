@@ -388,6 +388,7 @@ if g:has_packages
     silent! packadd ale
     silent! packadd vim-lsp
     silent! packadd cfilter
+    silent! packadd termdebug " Builtin terminal debugging pluging since vim 8 with +terminal feature flag
 else
     for dir in split(globpath(s:vim_dir, 'pack/*/start/*'), '\n')
         if isdirectory(dir)

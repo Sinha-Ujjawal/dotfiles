@@ -14,6 +14,7 @@
 !usr/
 !freebsd-service-files/
 !setup.sh
+!yank.sh
 !.rc.files/.*rc
 !.rc.files/*.sh
 !.config/gdb/gdbinit

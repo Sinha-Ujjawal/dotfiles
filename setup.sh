@@ -105,7 +105,43 @@ append_if_missing() {
     fi
 }
 
+remove_if_present() {
+    local path=$1
+
+    if [[ -z "$path" ]]; then
+        echo "Usage: remove_if_present <path>"
+        echo "<path> not provided!"
+        return 69
+    fi
+
+    if [[ -f "$path" || -d "$path" ]]; then
+        echo "Remove $path"
+        read -r -p "Proceed? (y/n): " choice
+        case "$choice" in
+            [Yy]* )
+                rm -rf "$path"
+                ;;
+             *)
+                echo "SKIPPED."
+                ;;
+        esac
+    fi
+}
+
 # --- Execution Steps ---
+
+# Creating/Adding /usr/local/bin to $PATH
+if [[ ! -f "/usr/local/bin" ]]; then
+    mkdir -p "/usr/local/bin"
+fi
+if [[ ":$PATH:" != *":/usr/local/bin"* ]]; then
+    export PATH="/usr/local/bin:$PATH"
+fi
+
+# Setup yank
+remove_if_present "/usr/local/bin/yank"
+ln -s "$DOTFILES_DIR/yank.sh" "/usr/local/bin/yank"
+chmod +x "/usr/local/bin/yank"
 
 # 1. .vimrc
 confirm_and_link "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" false

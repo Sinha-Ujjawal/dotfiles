@@ -55,49 +55,6 @@ confirm_and_link() {
     esac
 }
 
-ensure_source_line() {
-    local rc_file="$1"
-    local source_line="$2"
-
-    usage() {
-        echo "Usage ensure_source_line <rc_file> <source_line>"
-    }
-
-    if [[ -z "$rc_file" ]]; then
-        usage
-        echo "Error: <rc_file> not provided!"
-        return 69
-    fi
-    if [[ -z "$source_line" ]]; then
-        usage
-        echo "Error: <source_line> not provided!"
-        return 69
-    fi
-
-    echo "Append source line: \`$source_line\` to \`$rc_file\`"
-
-    # Only proceed if the file exists
-    if [[ ! -f "$rc_file" ]]; then
-        echo "SKIPPED."
-        return 0
-    fi
-
-    # Check if the line already exists (exact match)
-    if ! grep -Fxq "$source_line" "$rc_file"; then
-        read -r -p "Proceed? (y/n): " choice
-        case "$choice" in
-            [Yy]* )
-                printf '\n%s\n' "$source_line" >> "$rc_file"
-                ;;
-            * )
-                echo "SKIPPED."
-                ;;
-        esac
-    else
-        echo "SKIPPED."
-    fi
-}
-
 append_if_missing() {
     local file="$1"
     local content="$2"
@@ -176,8 +133,8 @@ fi
 append_if_missing "$HOME/.inputrc"  "\$include $DOTFILES_DIR/.rc.files/.inputrc"
 
 set -e
-ensure_source_line "$HOME/.bashrc" "source $DOTFILES_DIR/.rc.files/.bashrc"
-ensure_source_line "$HOME/.zshrc"  "source $DOTFILES_DIR/.rc.files/.zshrc"
+append_if_missing "$HOME/.bashrc" "source \"$DOTFILES_DIR/.rc.files/.bashrc\""
+append_if_missing "$HOME/.zshrc"  "source \"$DOTFILES_DIR/.rc.files/.zshrc\""
 
 echo ""
 echo "Setup process finished."

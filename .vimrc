@@ -32,10 +32,10 @@ if !empty($WAYLAND_DISPLAY) && executable('wl-copy') && executable('wl-paste')
 endif
 
 " === Command-Line-Window Settings ===
-" Open command-line-window when pressing : or / or ?
-nnoremap : q:i
-nnoremap / q/i
-nnoremap ? q?i
+" " Open command-line-window when pressing : or / or ?
+" nnoremap : q:i
+" nnoremap / q/i
+" nnoremap ? q?i
 set cmdwinheight=10
 augroup CmdWinCustom
     autocmd!
@@ -284,7 +284,7 @@ function! NetrwPrepareMove()
     let l:cmd = '!mv "' . l:fullpath . '" "' . l:fullpath . '"'
 
     " feedkeys triggers the CmdwinEnter autocmds above automatically via <C-f>
-    call feedkeys(':' . l:cmd . "\<C-f>", 'n')
+    call feedkeys('q:i' . l:cmd, 'n')
 endfunction
 augroup NetrwMoveOverride
     autocmd!

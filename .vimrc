@@ -281,6 +281,7 @@ endif
 if g:has_packages
     silent! packadd ale
     silent! packadd vim-lsp
+    silent! packadd cfilter
 else
     for dir in split(globpath(s:vim_dir, 'pack/*/start/*'), '\n')
         if isdirectory(dir)

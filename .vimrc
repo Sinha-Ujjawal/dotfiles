@@ -149,6 +149,86 @@ set gp=grep\ -n
 " === Custom Commands ===
 command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
+" === Comment Lines ===
+" Map filetypes to [OpeningTag, ClosingTag]
+" Use an empty string '' if no closing tag is required.
+let s:comment_map = {
+    \ 'c'         : ['//'   , ''    ],
+    \ 'cpp'       : ['//'   , ''    ],
+    \ 'python'    : ['#'    , ''    ],
+    \ 'vim'       : ['"'    , ''    ],
+    \ 'lua'       : ['--'   , ''    ],
+    \ 'javascript': ['//'   , ''    ],
+    \ 'css'       : ['/*'   , ' */' ],
+    \ 'html'      : ['<!-- ', ' -->'],
+    \ 'rust'      : ['//'   , ''    ]
+    \ }
+
+function! ToggleComment() range
+    let l:ft = &filetype
+    if !has_key(s:comment_map, l:ft) | return | endif
+
+    let l:open = s:comment_map[l:ft][0]
+    let l:close = s:comment_map[l:ft][1]
+
+    " 2. Calculate minimum indentation for vertical alignment
+    let l:min_indent = 999
+    for l:lnum in range(a:firstline, a:lastline)
+        let l:line = getline(l:lnum)
+        if l:line =~ '^\s*$' | continue | endif
+        let l:indent = indent(l:lnum)
+        if l:indent < l:min_indent | let l:min_indent = l:indent | endif
+    endfor
+    if l:min_indent == 999 | let l:min_indent = 0 | endif
+
+    " 3. Determine if the block is already commented
+    let l:all_commented = 1
+    let l:open_regex = '^\s\{' . l:min_indent . '\}' . escape(l:open, '/*^$')
+    for l:lnum in range(a:firstline, a:lastline)
+        let l:line = getline(l:lnum)
+        if l:line =~ '^\s*$' | continue | endif
+        if l:line !~ l:open_regex
+            let l:all_commented = 0
+            break
+        endif
+    endfor
+
+    " 4. Apply toggle with vertical alignment
+    let l:esc_open = escape(l:open, '/*^$')
+    let l:esc_close = escape(l:close, '/*^$')
+
+    if l:all_commented
+        " Remove opening tag at min_indent and optional closing tag at line end
+        for l:lnum in range(a:firstline, a:lastline)
+            let l:line = getline(l:lnum)
+            " Remove opening tag and one trailing space if it exists
+            let l:line = substitute(l:line, '^\(\s\{' . l:min_indent . '\}\)' . l:esc_open . '\s\?', '\1', '')
+            " Remove closing tag and one leading space if it exists
+            if l:close != ''
+                let l:line = substitute(l:line, '\s\?' . l:esc_close . '\s*$', '', '')
+            endif
+            call setline(l:lnum, l:line)
+        endfor
+    else
+        " Add opening tag at min_indent and closing tag at end of line
+        for l:lnum in range(a:firstline, a:lastline)
+            let l:line = getline(l:lnum)
+            if l:line =~ '^\s*$' | continue | endif
+            " Insert opening tag
+            let l:line = substitute(l:line, '^\(\s\{' . l:min_indent . '\}\)', '\1' . l:open . ' ', '')
+            " Append closing tag
+            if l:close != ''
+                let l:line = l:line . l:close
+            endif
+            call setline(l:lnum, l:line)
+        endfor
+    endif
+endfunction
+
+" Map Ctrl+/ to the function call for Normal and Visual modes
+nnoremap <silent> <C-/> :call ToggleComment()<CR>
+vnoremap <silent> <C-/> :call ToggleComment()<CR>gv
+
 " === Snippet Insertion ===
 nnoremap ,mit :-1read $HOME/.vim/snippets/mit<CR>ggwcf>
 function! InsertDocSnippet()

@@ -253,10 +253,12 @@ function! ToggleComment() range
         endfor
     endif
 endfunction
-
 " Map Ctrl+/ to the function call for Normal and Visual modes
 nnoremap <silent> <C-/> :call ToggleComment()<CR>
 vnoremap <silent> <C-/> :call ToggleComment()<CR>gv
+" Map Ctrl+_ to the function call for Normal and Visual modes
+nnoremap <silent> <C-_> :call ToggleComment()<CR>
+vnoremap <silent> <C-_> :call ToggleComment()<CR>gv
 
 " === Custom Netrw Changes ===
 function! NetrwPrepareMove()

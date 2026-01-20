@@ -384,6 +384,7 @@ let g:ale_linters = {
 \   'rust': ['rustc'],
 \   'c': [],
 \   'h': [],
+\   'cpp': [],
 \   'asm': [],
 \   'dockerfile': ['hadolint'],
 \   'lua': ['lua_language_server'],

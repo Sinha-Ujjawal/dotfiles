@@ -130,18 +130,18 @@ remove_if_present() {
 
 # --- Execution Steps ---
 
-# Creating/Adding /usr/local/bin to $PATH
-if [[ ! -f "/usr/local/bin" ]]; then
-    mkdir -p "/usr/local/bin"
+# Creating/Adding $HOME/bin to $PATH
+if [[ ! -f "$HOME/bin" ]]; then
+    mkdir -p "$HOME/bin"
 fi
-if [[ ":$PATH:" != *":/usr/local/bin"* ]]; then
-    export PATH="/usr/local/bin:$PATH"
+if [[ ":$PATH:" != *":$HOME/bin"* ]]; then
+    export PATH="$HOME/bin:$PATH"
 fi
 
 # Setup yank
-remove_if_present "/usr/local/bin/yank"
-ln -s "$DOTFILES_DIR/yank.sh" "/usr/local/bin/yank"
-chmod +x "/usr/local/bin/yank"
+remove_if_present "$HOME/bin/yank"
+ln -s "$DOTFILES_DIR/yank.sh" "$HOME/bin/yank"
+chmod +x "$HOME/bin/yank"
 
 # 1. .vimrc
 confirm_and_link "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" false

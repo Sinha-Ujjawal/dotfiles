@@ -113,6 +113,22 @@ function! SearchInFolder() range
     copen
 endfunction
 
+function! FindQf(cmd)
+    " Capture shell output as a list
+    let l:lines = split(system(a:cmd), '\n')
+
+    " Append :1:1 to every entry
+    call map(l:lines, 'v:val . ":1:1"')
+
+    " Load into quickfix and open window
+    cexpr l:lines
+    copen
+endfunction
+" Usage:
+" :FindQf ls
+" :FindQf find . -name "*.py"
+command! -nargs=+ FindQf call FindQf(<q-args>)
+
 " === Indentation: Default to 4 spaces ===
 set tabstop=4
 set shiftwidth=4

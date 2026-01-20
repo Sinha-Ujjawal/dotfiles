@@ -149,6 +149,40 @@ set gp=grep\ -n
 " === Custom Commands ===
 command! QBuffers call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '{"bufnr":v:val}'))
 
+" Listing files to quickfix
+function! ListFilesToQuickfix()
+    " 1. Decide the shell command based on environment
+    let l:is_git = system('git rev-parse --is-inside-work-tree')
+    if v:shell_error == 0
+        " Git branch: Chaining commands is faster than multiple system calls
+        let l:cmd = 'git ls-files --recurse-submodules -c && git ls-files -o --exclude-standard'
+    elseif has('win32') || has('win64')
+        " Windows branch: Use /a-d to skip folders but include hidden files
+        let l:cmd = 'dir /s /b /a-d'
+    else
+        " Unix branch: Standard find
+        let l:cmd = 'find . -type f'
+    endif
+
+    " 2. Populate Quickfix via internal C-engine (Avoids slow VimScript loops)
+    let l:old_efm = &errorformat
+    set errorformat=%f
+
+    " cgetexpr executes the command and parses the entire string at once
+    execute 'cgetexpr system("' . l:cmd . '")'
+
+    " 3. Post-processing (Filtering)
+    " We use internal filter() which is significantly faster than for-loops
+    let l:qf = getqflist()
+    call filter(l:qf, 'v:val.text !~# "^\.git[/\\]" && bufname(v:val.bufnr) !~# "\.git[/\\]"')
+    call setqflist(l:qf, 'r')
+
+    let &errorformat = l:old_efm
+    copen
+    echo "Found " . len(getqflist()) . " files."
+endfunction
+nnoremap ,f :call ListFilesToQuickfix()<CR>
+
 " === Comment Lines ===
 " Map filetypes to [OpeningTag, ClosingTag]
 " Use an empty string '' if no closing tag is required.

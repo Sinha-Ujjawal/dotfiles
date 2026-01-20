@@ -271,6 +271,26 @@ endfunction
 nnoremap <silent> <C-/> :call ToggleComment()<CR>
 vnoremap <silent> <C-/> :call ToggleComment()<CR>gv
 
+" === Custom Netrw Changes ===
+function! NetrwPrepareMove()
+    let l:curdir = b:netrw_curdir
+    let l:filename = netrw#Call('NetrwGetWord')
+    let l:sep = (has('win32') ? '\' : '/')
+    let l:fullpath = l:curdir . (l:curdir =~ '[/\\]$' ? '' : l:sep) . l:filename
+    let l:cmd = '!mv "' . l:fullpath . '" "' . l:fullpath . '"'
+
+    " feedkeys triggers the CmdwinEnter autocmds above automatically via <C-f>
+    call feedkeys(':' . l:cmd . "\<C-f>", 'n')
+endfunction
+augroup NetrwMoveOverride
+    autocmd!
+    autocmd FileType netrw nnoremap <buffer> R :call NetrwPrepareMove()<CR>
+augroup END
+" Add swap file patterns to the hiding list (comma-separated)
+let g:netrw_list_hide = '.*\.swp$,.*\.swo$,.*\.swn$'
+" Set the hiding mode to 'hide matching' by default (1 = hide, 0 = show all)
+let g:netrw_hide = 1
+
 " === Snippet Insertion ===
 nnoremap ,mit :-1read $HOME/.vim/snippets/mit<CR>ggwcf>
 function! InsertDocSnippet()

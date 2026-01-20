@@ -31,12 +31,16 @@ if !empty($WAYLAND_DISPLAY) && executable('wl-copy') && executable('wl-paste')
     nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<cr>p
 endif
 
-" Open command-line-window when pressing :
+" === Command-Line-Window Settings ===
+" Open command-line-window when pressing : or / or ?
 nnoremap : q:i
-set cmdwinheight=1
+nnoremap / q/i
+nnoremap ? q?i
+set cmdwinheight=10
 augroup CmdWinCustom
     autocmd!
-    autocmd CmdwinEnter * setlocal wrap linebreak nolist nonumber norelativenumber
+    " Handle all command-line windows
+    autocmd CmdwinEnter * setlocal wrap linebreak nolist number relativenumber
 augroup END
 
 " === Search ===

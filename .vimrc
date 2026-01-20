@@ -146,6 +146,7 @@ autocmd FileType scala setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 " === Navigation & Display ===
 set path+=**
 set wildmenu
+set wildignorecase
 set scrolloff=5
 set nu rnu
 set belloff=all

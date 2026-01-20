@@ -31,6 +31,14 @@ if !empty($WAYLAND_DISPLAY) && executable('wl-copy') && executable('wl-paste')
     nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\r', '', 'g')<cr>p
 endif
 
+" Open command-line-window when pressing :
+nnoremap : q:i
+set cmdwinheight=1
+augroup CmdWinCustom
+    autocmd!
+    autocmd CmdwinEnter * setlocal wrap linebreak nolist nonumber norelativenumber
+augroup END
+
 " === Search ===
 set ignorecase
 set smartcase

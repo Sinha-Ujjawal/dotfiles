@@ -89,6 +89,24 @@ extract () {
       *)           echo "'$1' cannot be extracted via extract()"   ;;
     esac
   else
-    echo "'$1' is not a valid file"
+    echo "Usage: extract <file>"
+  fi
+}
+
+compress() {
+  if [ -n "$1" ] && [ -n "$2" ]; then
+    case $1 in
+      *.tar.bz2)   tar -cjvf "$1" "$2" ;;
+      *.tar.gz)    tar -czvf "$1" "$2" ;;
+      *.tar.xz)    tar -cvf  "$1" "$2" ;;
+      *.tar)       tar -cvf  "$1" "$2" ;;
+      *.bz2)       bzip2 -c  "$2" > "$1" ;;
+      *.gz)        gzip -c   "$2" > "$1" ;;
+      *.zip)       zip -r    "$1" "$2" ;;
+      *.7z)        7z a      "$1" "$2" ;;
+      *)           echo "'$1' cannot be compressed via compress()" ;;
+    esac
+  else
+    echo "Usage: compress <output_file> <input_file_or_dir>"
   fi
 }

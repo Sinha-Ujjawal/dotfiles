@@ -62,6 +62,16 @@ touchx() {
 # Reference: https://youtu.be/DsmKmmKbz_4?si=VWO1LbuSSWi55hNh
 extract () {
   if [ -f "$1" ] ; then
+    unrar2dir() {
+      local folder_name="${1%.*}"
+      mkdir -p "$folder_name" && unrar x "$1" "$folder_name/"
+    }
+
+    unzip2dir() {
+      local folder_name="${1%.*}"
+      unzip "$1" -d "$folder_name"
+    }
+
     case $1 in
       *.tar.bz2)   tar xjvf   "$1" ;;
       *.tar.gz)    tar xzvf   "$1" ;;

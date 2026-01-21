@@ -134,9 +134,6 @@ remove_if_present() {
 if [[ ! -f "$HOME/bin" ]]; then
     mkdir -p "$HOME/bin"
 fi
-if [[ ":$PATH:" != *":$HOME/bin"* ]]; then
-    export PATH="$HOME/bin:$PATH"
-fi
 
 # Setup yank
 remove_if_present "$HOME/bin/yank"

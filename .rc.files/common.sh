@@ -8,6 +8,10 @@ case "$(uname -s)" in
         ;;
 esac
 
+if [[ ":$PATH:" != *":$HOME/bin"* ]]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
 touchx() {
     local touch_args=()
     local files=()

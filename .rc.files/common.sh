@@ -8,6 +8,9 @@ case "$(uname -s)" in
         ;;
 esac
 
+export VISUAL=vim
+export EDITOR=vim
+
 if [[ ":$PATH:" != *":$HOME/bin"* ]]; then
     export PATH="$HOME/bin:$PATH"
 fi

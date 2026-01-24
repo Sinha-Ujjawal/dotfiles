@@ -481,6 +481,13 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+" === llama.vim configuration ===
+let g:llama_config = {
+\   'auto_fim': v:false,
+\   'enable_at_startup': v:true,
+\ }
+nnoremap ,l :LlamaToggleAutoFim<CR>
+
 " Special yank useful when ssh into a server
 " Reference: https://andrewbrookins.com/technology/copying-to-the-ios-clipboard-over-ssh-with-control-codes/
 " copy to attached terminal using the yank(1) script:

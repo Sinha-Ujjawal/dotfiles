@@ -13,3 +13,6 @@
 [submodule ".vim/pack/git-plugins/start/gitblame"]
 	path = .vim/pack/git-plugins/start/gitblame
 	url = https://github.com/MoserMichael/gitblame.git
+[submodule ".vim/pack/git-plugins/start/llama.vim"]
+	path = .vim/pack/git-plugins/start/llama.vim
+	url = https://github.com/ggml-org/llama.vim.git

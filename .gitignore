@@ -18,3 +18,4 @@
 !.rc.files/.*rc
 !.rc.files/*.sh
 !.config/gdb/gdbinit
+!.config/cspell/cspell.json

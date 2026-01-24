@@ -430,6 +430,10 @@ let g:ale_linters = {
 \   'dockerfile': ['hadolint'],
 \   'lua': ['lua_language_server'],
 \   'scala': [],
+\   'markdown': ['cspell', 'vale'],
+\   'json': ['jsonlint'],
+\   'sh': ['shellcheck'],
+\   'bash': ['shellcheck'],
 \}
 
 let g:ale_linters_ignore = {
@@ -438,6 +442,8 @@ let g:ale_linters_ignore = {
 
 " Force using global pyright-langserver (important!)
 let g:ale_python_pyright_use_global = 1
+
+let g:ale_cspell_options = '--config ~/.config/cspell/cspell.json'
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -448,6 +454,7 @@ let g:ale_fixers = {
 \   'h': [],
 \   'lua': ['stylua'],
 \   'scala': [],
+\   'json': ['jq'],
 \}
 
 let g:ale_disable_lsp = 0
@@ -484,6 +491,7 @@ augroup END
 " === llama.vim configuration ===
 let g:llama_config = {
 \   'auto_fim': v:false,
+\   'show_info': 0,
 \   'enable_at_startup': v:true,
 \ }
 nnoremap ,l :LlamaToggleAutoFim<CR>

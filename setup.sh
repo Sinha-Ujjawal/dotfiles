@@ -140,32 +140,29 @@ remove_if_present "$HOME/bin/yank"
 ln -s "$DOTFILES_DIR/yank.sh" "$HOME/bin/yank"
 chmod +x "$HOME/bin/yank"
 
-# 1. .vimrc
+# Vim and Neovim config
 confirm_and_link "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" false
-
-# 2. .vim directory
 confirm_and_link "$DOTFILES_DIR/.vim" "$HOME/.vim" true
-
-# 3. Neovim config directory
 confirm_and_link "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim" true
 
-# 4. .tmux.conf
+# Tmux config
 confirm_and_link "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf" false
 
-# 5. .aider.conf.yml
+# Aider config
 confirm_and_link "$DOTFILES_DIR/.aider.conf.yml" "$HOME/.aider.conf.yml" false
 
-# 6. GDB config directory
+# Gdb config
 confirm_and_link "$DOTFILES_DIR/.config/gdb" "$HOME/.config/gdb" true
 confirm_and_link "$DOTFILES_DIR/.config/gdb/gdbinit" "$HOME/.gdbinit" true
 
-# 7. Appending to ~/.inputrc
+# cspell config
+confirm_and_link "$DOTFILES_DIR/.config/cspell" "$HOME/.config/cspell" true
+
+# Inputrc, Bashrc and Zshrc config
 if [[ ! -f "$HOME/.inputrc" ]]; then
     touch "$HOME/.inputrc"
 fi
 append_if_missing "$HOME/.inputrc"  "\$include $DOTFILES_DIR/.rc.files/.inputrc"
-
-set -e
 append_if_missing "$HOME/.bashrc" "source \"$DOTFILES_DIR/.rc.files/.bashrc\""
 append_if_missing "$HOME/.zshrc"  "source \"$DOTFILES_DIR/.rc.files/.zshrc\""
 

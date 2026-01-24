@@ -1,13 +1,8 @@
 {
   "version": "0.2",
   "language": "en",
-  "languageSettings": [
-    {
-      "languageId": "markdown",
-      "ignoreRegExpList": [
-        "```[\\s\\S]*?```",
-        "`[^`]+`"
-      ]
-    }
+  "ignoreRegExpList": [
+    "```[\\s\\S]*?```",
+    "`[^`]*`"
   ]
 }

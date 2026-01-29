@@ -489,12 +489,14 @@ augroup lsp_install
 augroup END
 
 " === llama.vim configuration ===
-let g:llama_config = {
-\   'auto_fim': v:false,
-\   'show_info': 0,
-\   'enable_at_startup': v:true,
-\ }
-nnoremap ,l :LlamaToggleAutoFim<CR>
+if v:version >= 901
+    let g:llama_config = {
+    \   'auto_fim': v:false,
+    \   'show_info': 0,
+    \   'enable_at_startup': v:true,
+    \ }
+    nnoremap ,l :LlamaToggleAutoFim<CR>
+endif
 
 " Special yank useful when ssh into a server
 " Reference: https://andrewbrookins.com/technology/copying-to-the-ios-clipboard-over-ssh-with-control-codes/

@@ -7,6 +7,7 @@ syntax on
 set encoding=utf-8
 set hidden " To enable buffer switching without the necessaity to save.
 set laststatus=2 " To show status bar
+set clipboard=unnamed,unnamedplus
 
 set mouse=a
 if !has("nvim")

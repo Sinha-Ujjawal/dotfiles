@@ -435,6 +435,7 @@ let g:ale_linters = {
 \   'json': ['jsonlint'],
 \   'sh': ['shellcheck'],
 \   'bash': ['shellcheck'],
+\   'java': ['eclipselsp'],
 \}
 
 let g:ale_linters_ignore = {
@@ -456,6 +457,8 @@ let g:ale_fixers = {
 \   'lua': ['stylua'],
 \   'scala': [],
 \   'json': ['jq'],
+\   'java': ['google_java_format'],
+\   'xml': ['xmllint'],
 \}
 
 let g:ale_disable_lsp = 0

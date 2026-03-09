@@ -166,6 +166,9 @@ append_if_missing "$HOME/.inputrc"  "\$include $DOTFILES_DIR/.rc.files/.inputrc"
 append_if_missing "$HOME/.bashrc" "source \"$DOTFILES_DIR/.rc.files/.bashrc\""
 append_if_missing "$HOME/.zshrc"  "source \"$DOTFILES_DIR/.rc.files/.zshrc\""
 
+# .gitconfig settings
+confirm_and_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig" false
+
 echo ""
 echo "Setup process finished."
 

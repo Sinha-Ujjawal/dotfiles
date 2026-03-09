@@ -1,0 +1,29 @@
+[user]
+    name = Sinha-Ujjawal
+    email = ujjawalsinhacool16021998@gmail.com
+
+[core]
+    pager = less -+F -RFX
+    autocrlf = false
+
+[init]
+    defaultBranch = main
+
+[color]
+    ui = auto
+
+[help]
+    autocorrect = prompt
+
+[alias]
+    # Shortened commands
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    # A visual, color-coded branch history tree
+    lg = log --graph --oneline --decorate --all
+    # Unstage files easily
+    unstage = reset HEAD --
+    # View the last commit
+    last = log -1 HEAD

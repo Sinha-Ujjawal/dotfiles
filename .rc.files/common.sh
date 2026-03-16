@@ -7,6 +7,7 @@ case "$(uname -s)" in
         alias ldd='otool -L'
         ;;
 esac
+alias vi="vim"
 
 export VISUAL=vim
 export EDITOR=vim

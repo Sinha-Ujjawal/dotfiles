@@ -4,16 +4,39 @@
     "height": 30,
     "modules-left": ["hyprland/workspaces"], // Use "sway/workspaces" if on Sway
     "modules-center": ["clock"],
-    "modules-right": ["battery"],
+    "modules-right": ["pulseaudio", "network", "bluetooth", "battery"],
 
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true
     },
+
     "clock": {
-        "format": "{:%Y-%m-%d | %H:%M}"
+        "format": "{:%A, %Y-%m-%d | %H:%M}"
     },
+
+    "pulseaudio": {
+        "format": "VOL: {volume}%",
+        "format-muted": "MUTED",
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi": "WIFI: {essid} ({signalStrength}%)",
+        "format-ethernet": "ETH: {ipaddr}",
+        "format-disconnected": "WIFI: OFF",
+        "on-click": "kitty -e nmtui"
+    },
+
+    "bluetooth": {
+        "format": "BT: {status}",
+        "format-connected": "BT: {device_alias}",
+        "format-connected-battery": "BT: {device_alias} {device_battery_percentage}%",
+        "on-click": "kitty -e bluetoothctl"
+    },
+
     "battery": {
-        "format": "Bat: {capacity}%"
+        "format": "BAT: {capacity}%",
+        "format-charging": "BAT: {capacity}% (CHG)"
     }
 }

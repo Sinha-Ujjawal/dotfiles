@@ -18,6 +18,6 @@ window#waybar {
     border-bottom: 3px solid #ffffff;
 }
 
-#clock, #battery {
+#clock, #pulseaudio, #network, #bluetooth, #battery {
     padding: 0 10px;
 }

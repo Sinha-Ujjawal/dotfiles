@@ -20,3 +20,5 @@
 !.config/gdb/gdbinit
 !.config/cspell/cspell.json
 !.gitconfig
+!.config/hypr/*
+!.config/waybar/*

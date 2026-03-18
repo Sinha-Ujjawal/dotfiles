@@ -1,0 +1,19 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": ["hyprland/workspaces"], // Use "sway/workspaces" if on Sway
+    "modules-center": ["clock"],
+    "modules-right": ["battery"],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true
+    },
+    "clock": {
+        "format": "{:%Y-%m-%d | %H:%M}"
+    },
+    "battery": {
+        "format": "Bat: {capacity}%"
+    }
+}

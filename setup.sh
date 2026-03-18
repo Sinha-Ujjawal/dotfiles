@@ -155,6 +155,10 @@ confirm_and_link "$DOTFILES_DIR/.aider.conf.yml" "$HOME/.aider.conf.yml" false
 confirm_and_link "$DOTFILES_DIR/.config/gdb" "$HOME/.config/gdb" true
 confirm_and_link "$DOTFILES_DIR/.config/gdb/gdbinit" "$HOME/.gdbinit" true
 
+# Hyperland and Waybar Config
+confirm_and_link "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr" true
+confirm_and_link "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar" true
+
 # cspell config
 confirm_and_link "$DOTFILES_DIR/.config/cspell" "$HOME/.config/cspell" true
 

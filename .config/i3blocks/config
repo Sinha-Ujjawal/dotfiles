@@ -1,4 +1,4 @@
-# INSTALL: sudo apt install i3blocks nmtui bluetoothctl gnome-calendar
+# INSTALL: sudo apt install i3blocks nmtui bluetoothctl gnome-calendar alsa-utils pavucontrol
 
 separator=true
 separator_block_width=20
@@ -17,6 +17,13 @@ interval=5
 label=Bat:
 command=acpi -b | grep -oP '\d+(?=%)' | sort -rn | head -n1 | awk '{print $1"%"}'
 interval=30
+
+[volume]
+label=Vol:
+# This command tries 'Master' first, then 'Speaker' if Master fails
+command=if [ "$BLOCK_BUTTON" -eq 1 ]; then pavucontrol; fi; VOL=$(amixer get Master | grep -oP '\[\d+%\d*\]' | head -n1 | tr -d '[]%'); [ -z "$VOL" ] && VOL=$(amixer get Speaker | grep -oP '\[\d+%\d*\]' | head -n1 | tr -d '[]%'); echo "${VOL}%"
+interval=5
+signal=10
 
 [time]
 label=Date:

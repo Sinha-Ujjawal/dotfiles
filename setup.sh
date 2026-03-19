@@ -159,6 +159,10 @@ confirm_and_link "$DOTFILES_DIR/.config/gdb/gdbinit" "$HOME/.gdbinit" true
 confirm_and_link "$DOTFILES_DIR/.config/hypr" "$HOME/.config/hypr" true
 confirm_and_link "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar" true
 
+# i3 Config
+confirm_and_link "$DOTFILES_DIR/.config/i3" "$HOME/.config/i3" true
+confirm_and_link "$DOTFILES_DIR/.config/i3blocks" "$HOME/.config/i3blocks" true
+
 # cspell config
 confirm_and_link "$DOTFILES_DIR/.config/cspell" "$HOME/.config/cspell" true
 

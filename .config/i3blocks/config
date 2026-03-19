@@ -1,0 +1,24 @@
+# INSTALL: sudo apt install i3blocks nmtui bluetoothctl gnome-calendar
+
+separator=true
+separator_block_width=20
+
+[wifi]
+label=WiFi:
+command=if [ "$BLOCK_BUTTON" -eq 1 ]; then kitty -e nmtui; fi; nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2 | grep . || echo "Disconnected"
+interval=10
+
+[bluetooth]
+label=BT:
+command=if [ "$BLOCK_BUTTON" -eq 1 ]; then kitty -e bluetoothctl; fi; bluetoothctl show | grep -q "Powered: yes" && echo "ON" || echo "OFF"
+interval=5
+
+[battery]
+label=Bat:
+command=acpi -b | grep -oP '\d+(?=%)' | sort -rn | head -n1 | awk '{print $1"%"}'
+interval=30
+
+[time]
+label=Date:
+command=if [ "$BLOCK_BUTTON" -eq 1 ]; then gnome-calendar; fi; date '+%A, %Y-%m-%d %H:%M'
+interval=1

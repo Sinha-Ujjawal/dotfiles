@@ -22,3 +22,5 @@
 !.gitconfig
 !.config/hypr/*
 !.config/waybar/*
+!.config/i3/*
+!.config/i3blocks/*

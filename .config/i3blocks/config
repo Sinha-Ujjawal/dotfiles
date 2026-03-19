@@ -1,4 +1,4 @@
-# INSTALL: sudo apt install i3blocks nmtui bluetoothctl gnome-calendar alsa-utils pavucontrol
+# INSTALL: sudo apt install i3blocks nmtui bluetoothctl brightnessctl gnome-calendar alsa-utils pavucontrol
 
 separator=true
 separator_block_width=20
@@ -24,6 +24,12 @@ label=Vol:
 command=if [ "$BLOCK_BUTTON" -eq 1 ]; then pavucontrol; fi; VOL=$(amixer get Master | grep -oP '\[\d+%\d*\]' | head -n1 | tr -d '[]%'); [ -z "$VOL" ] && VOL=$(amixer get Speaker | grep -oP '\[\d+%\d*\]' | head -n1 | tr -d '[]%'); echo "${VOL}%"
 interval=5
 signal=10
+
+[brightness]
+label=Light:
+command=brightnessctl | grep -oP '\(\d+%\)' | tr -d '()'
+interval=5
+signal=11
 
 [time]
 label=Date:

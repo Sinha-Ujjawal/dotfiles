@@ -207,3 +207,5 @@ bar {
         status_command i3blocks
         workspace_buttons yes
 }
+
+hide_edge_borders both

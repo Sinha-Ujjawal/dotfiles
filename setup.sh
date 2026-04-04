@@ -177,6 +177,9 @@ append_if_missing "$HOME/.zshrc"  "source \"$DOTFILES_DIR/.rc.files/.zshrc\""
 # .gitconfig settings
 confirm_and_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig" false
 
+# .gf2
+confirm_and_link "$DOTFILES_DIR/.config/gf2_config.ini" "$HOME/.config/gf2_config.ini" false
+
 echo ""
 echo "Setup process finished."
 

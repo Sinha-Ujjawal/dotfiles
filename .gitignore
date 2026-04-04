@@ -19,6 +19,7 @@
 !.rc.files/*.sh
 !.config/gdb/gdbinit
 !.config/cspell/cspell.json
+!.config/gf2_config.ini
 !.gitconfig
 !.config/hypr/*
 !.config/waybar/*

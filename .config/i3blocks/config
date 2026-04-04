@@ -18,6 +18,11 @@ label=Bat:
 command=acpi -b | grep -oP '\d+(?=%)' | sort -rn | head -n1 | awk '{print $1"%"}'
 interval=30
 
+[cpu_temp]
+label=Temp:
+command=if [ "$BLOCK_BUTTON" -eq 1 ]; then kitty -e watch -n 1 "sensors | grep 'Core'"; fi; sensors | grep 'Package id 0' | awk '{print $4}' | tr -d '+'
+interval=1
+
 [volume]
 label=Vol:
 # This command tries 'Master' first, then 'Speaker' if Master fails

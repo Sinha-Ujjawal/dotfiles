@@ -9,6 +9,16 @@ set hidden " To enable buffer switching without the necessaity to save.
 set laststatus=2 " To show status bar
 set clipboard=unnamed,unnamedplus
 
+" 1. Prevent the file from setting its own options (The 'Modeline' threat)
+set nomodeline
+set modelines=0
+
+" 2. Prevent Vim from looking for and running .vimrc/.exrc in the current folder
+set noexrc
+
+" 3. If you ever DO enable exrc, this ensures it can't run shell commands
+set secure
+
 set mouse=a
 if !has("nvim")
     " To enable mouse drag for vim inside tmux

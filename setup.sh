@@ -163,6 +163,9 @@ confirm_and_link "$DOTFILES_DIR/.config/waybar" "$HOME/.config/waybar" true
 confirm_and_link "$DOTFILES_DIR/.config/i3" "$HOME/.config/i3" true
 confirm_and_link "$DOTFILES_DIR/.config/i3blocks" "$HOME/.config/i3blocks" true
 
+# .gf2
+confirm_and_link "$DOTFILES_DIR/.config/kitty" "$HOME/.config/kitty" true
+
 # cspell config
 confirm_and_link "$DOTFILES_DIR/.config/cspell" "$HOME/.config/cspell" true
 

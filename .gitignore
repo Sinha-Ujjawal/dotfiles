@@ -25,3 +25,4 @@
 !.config/waybar/*
 !.config/i3/*
 !.config/i3blocks/*
+!.config/kitty/*

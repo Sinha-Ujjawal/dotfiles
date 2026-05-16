@@ -7,7 +7,7 @@ syntax on
 set encoding=utf-8
 set hidden " To enable buffer switching without the necessaity to save.
 set laststatus=2 " To show status bar
-set clipboard=unnamed,unnamedplus
+" set clipboard=unnamed,unnamedplus
 
 " 1. Prevent the file from setting its own options (The 'Modeline' threat)
 set nomodeline
@@ -155,7 +155,7 @@ autocmd FileType lua setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType scala setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
 
 " === Navigation & Display ===
-set path+=**
+" set path+=**
 set wildmenu
 set wildignorecase
 set scrolloff=5
@@ -446,6 +446,7 @@ let g:ale_linters = {
 \   'sh': ['shellcheck'],
 \   'bash': ['shellcheck'],
 \   'java': ['eclipselsp'],
+\   'javascript': ['eslint', 'tsserver'],
 \}
 
 let g:ale_linters_ignore = {

@@ -135,10 +135,12 @@ if [[ ! -f "$HOME/bin" ]]; then
     mkdir -p "$HOME/bin"
 fi
 
-# Setup yank
+# Setup yank and yank-overflow
 remove_if_present "$HOME/bin/yank"
 ln -s "$DOTFILES_DIR/yank.sh" "$HOME/bin/yank"
 chmod +x "$HOME/bin/yank"
+ln -s "$DOTFILES_DIR/yank-overflow.sh" "$HOME/bin/yank-overflow"
+chmod +x "$HOME/bin/yank-overflow"
 
 # Vim and Neovim config
 confirm_and_link "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" false

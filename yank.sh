@@ -1,10 +1,9 @@
 #!/usr/bin/env sh
 
 # Reference: https://andrewbrookins.com/technology/copying-to-the-ios-clipboard-over-ssh-with-control-codes/
-
-#!/bin/sh
 #
 # Usage: yank [FILE...]
+#        yank --chunks [FILE]
 #
 # Copies the contents of the given files (or stdin, if no files are given) to
 # the terminal that runs this program.  If this program is run inside tmux(1),
@@ -16,50 +15,135 @@
 # 7 bytes are occupied by a "\033]52;c;" header, 1 byte by a "\a" footer, and
 # 99_992 bytes by the base64-encoded result of 74_994 bytes of copyable text.
 #
-# In other words, this program can only copy up to 74_994 bytes of its input.
-# However, in such cases, this program tries to bypass the input length limit
-# by copying directly to the X11 clipboard if a $DISPLAY server is available;
-# otherwise, it emits a warning (on stderr) about the number of bytes dropped.
+# If input exceeds 74_994 bytes, the content is saved to YANK_OVERFLOW_FILE
+# and a notification message is yanked instead so you see it on paste.
 #
-# NOTE: You might also need to allow this script to bypass tmux (through the
-# "Ptmux;" escape sequence) by enabling allow-passthrough in your tmux.conf:
+# Use --chunks to send a large file in sequential OSC 52 chunks, prompting
+# for 'y' between each chunk:
 #
+#   yank --chunks               # reads from YANK_OVERFLOW_FILE
+#   yank --chunks /some/file    # reads from a specific file
+#
+# Called from tmux via:
+#   bind-key -T copy-mode-vi y send-keys -X copy-pipe '$HOME/bin/yank > #{pane_tty}'
+#
+# NOTE: Enable passthrough in tmux.conf for OSC 52 to work:
 #   set-window-option -g allow-passthrough on
-#
-# See http://en.wikipedia.org/wiki/Base64 for the 4*ceil(n/3) length formula.
-# See http://sourceforge.net/p/tmux/mailman/message/32221257 for copy limits.
-# See http://sourceforge.net/p/tmux/tmux-code/ci/a0295b4c2f6 for DCS in tmux.
-#
-# Written in 2014 by Suraj N. Kurapati <https://github.com/sunaku>
-# Also documented at https://sunaku.github.io/tmux-yank-osc52.html
 
-input=$( cat "$@" )
-input() { printf %s "$input" ;}
-known() { command -v "$1" >/dev/null ;}
-maybe() { known "$1" && input | "$@" ;}
-alive() { known "$1" && "$@" >/dev/null 2>&1 ;}
+# ── User config ────────────────────────────────────────────────────────────────
+YANK_OVERFLOW_FILE="${YANK_OVERFLOW_FILE:-$HOME/.yank_overflow}"
+# ───────────────────────────────────────────────────────────────────────────────
 
-# copy via OSC 52
+known() { command -v "$1" >/dev/null; }
+alive() { known "$1" && "$@" >/dev/null 2>&1; }
+
 printf_escape() {
   esc=$1
   test -n "$TMUX" -o -z "${TERM##screen*}" && esc="\033Ptmux;\033$esc\033\\"
   printf "$esc"
 }
-len=$( input | wc -c ) max=74994
-test "$len" -gt "$max" && echo "$0: input is $(( len - max )) bytes too long" >&2
-printf_escape "\033]52;c;$( input | head -c $max | base64 | tr -d '\r\n' )\a"
 
-# copy to tmux
-test -n "$TMUX" && maybe tmux load-buffer -
-
-# copy via X11
-test -n "$DISPLAY" && alive xhost && {
-  maybe xsel -i -b || maybe xclip -sel c
+yank_chunk_b64() {
+  # $1 = already base64-encoded chunk
+  printf_escape "\033]52;c;$1\a"
 }
 
-# copy via clip command in msys2
-test -f /c/Windows/System32/clip && {
-  maybe /c/windows/System32/clip
+# ── Chunked mode ───────────────────────────────────────────────────────────────
+if [ "${1:-}" = "--chunks" ]; then
+  shift
+  chunkfile="${1:-$YANK_OVERFLOW_FILE}"
+
+  if [ ! -f "$chunkfile" ]; then
+    echo "yank: file not found: $chunkfile" >&2
+    exit 1
+  fi
+
+  max=74994
+  len=$(wc -c < "$chunkfile")
+  total_chunks=$(( (len + max - 1) / max ))
+  chunk=1
+  offset=0
+
+  echo "Sending $len bytes in $total_chunks chunk(s) from $chunkfile"
+
+  while [ "$offset" -lt "$len" ]; do
+    chunk_b64=$(dd if="$chunkfile" bs=1 skip="$offset" count="$max" 2>/dev/null | base64 | tr -d '\r\n')
+    chunk_end=$(( offset + max < len ? offset + max : len ))
+
+    yank_chunk_b64 "$chunk_b64"
+
+    if [ "$chunk" -lt "$total_chunks" ]; then
+      printf "Chunk %d/%d yanked (%d-%d of %d bytes). Paste it, then press 'y' for next chunk, any other key to abort: " \
+        "$chunk" "$total_chunks" \
+        "$((offset + 1))" "$chunk_end" "$len"
+
+      old_stty=$(stty -g </dev/tty)
+      stty -echo -icanon min 1 time 0 </dev/tty
+      key=$(dd if=/dev/tty bs=1 count=1 2>/dev/null)
+      stty "$old_stty" </dev/tty
+
+      printf '\n'
+
+      case "$key" in
+        y|Y) : ;;
+        *)
+          printf 'Yank aborted at chunk %d/%d.\n' "$chunk" "$total_chunks"
+          exit 0
+          ;;
+      esac
+    else
+      printf "Chunk %d/%d yanked (%d-%d of %d bytes).\n" \
+        "$chunk" "$total_chunks" \
+        "$((offset + 1))" "$chunk_end" "$len"
+    fi
+
+    offset=$(( offset + max ))
+    chunk=$(( chunk + 1 ))
+  done
+
+  printf 'All %d chunks yanked from %s!\n' "$total_chunks" "$chunkfile"
+  exit 0
+fi
+
+# ── Normal mode ────────────────────────────────────────────────────────────────
+
+# Store input in a temp file to safely handle all byte values (including nulls)
+tmpfile=$(mktemp)
+trap 'rm -f "$tmpfile"' EXIT
+cat "$@" > "$tmpfile"
+input() { cat "$tmpfile"; }
+
+maybe() { known "$1" && input | "$@"; }
+
+max=74994
+len=$(input | wc -c)
+
+copy_side_channels() {
+  test -n "$TMUX" && maybe tmux load-buffer -
+  test -n "$DISPLAY" && alive xhost && {
+    maybe xsel -i -b || maybe xclip -sel c
+  }
+  test -f /c/Windows/System32/clip && {
+    maybe /c/windows/System32/clip
+  }
 }
+
+if [ "$len" -le "$max" ]; then
+  # Fast path: fits within OSC 52 limit, yank normally
+  printf_escape "\033]52;c;$(input | base64 | tr -d '\r\n')\a"
+  copy_side_channels
+else
+  # Overflow: save content to file, yank a notification message instead
+  input > "$YANK_OVERFLOW_FILE"
+  msg="[Yank overflow: content too large ($len bytes). Saved to $YANK_OVERFLOW_FILE — run: yank --chunks]"
+  printf_escape "\033]52;c;$(printf '%s' "$msg" | base64 | tr -d '\r\n')\a"
+  # Overwrite tmux's buffer with the notification message too
+  test -n "$TMUX" && printf '%s' "$msg" | tmux load-buffer -
+  # Overwrite X11 clipboard too if available
+  test -n "$DISPLAY" && alive xhost && {
+    printf '%s' "$msg" | xsel -i -b 2>/dev/null || \
+    printf '%s' "$msg" | xclip -sel c 2>/dev/null
+  }
+fi
 
 exit 0

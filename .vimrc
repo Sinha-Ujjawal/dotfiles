@@ -1,3 +1,5 @@
+filetype plugin indent on
+
 let g:is_vim8 = v:version >= 800
 let g:has_packages = has('packages') && g:is_vim8
 
@@ -388,6 +390,44 @@ nnoremap ,cc :call ToggleColorColumn(120) <CR>                       " toggle 12
 nnoremap ,cf :let @+=expand("%:p") <bar> let @"=expand("%:p") <CR>   " copies the current buffers absolute location to '+' and '"' registers
 nnoremap ,cr :let @+=expand("%")   <bar> let @"=expand("%")   <CR>   " copies the current buffers relative location to '+' and '"' registers
 nnoremap ,s :<C-u>call gitblame#echo()<CR>                           " showing git blame output in status bar (from https://github.com/zivyangll/git-blame.vim?tab=readme-ov-file#please-setting-bindings)
+function! SmartTagJump(global_search)
+  let l:word = expand("<cword>")
+  let l:cwd = getcwd()
+
+  " Programmatically pull ctags to bypass native jump pollution
+  let l:tags = taglist('^' . l:word . '$')
+  let l:filtered = []
+
+  for l:t in l:tags
+    " Mode 0: Local CWD filter / Mode 1: Global unfiltered match
+    if a:global_search || fnamemodify(l:t.filename, ':p') =~# '^' . escape(l:cwd, '\\')
+      call add(l:filtered, l:t)
+    endif
+  endfor
+
+  if len(l:filtered) > 1
+    " Ambigous: Fill location list and prompt window
+    execute "ltag " . l:word
+    if !a:global_search
+      call setloclist(0, filter(getloclist(0), 'fnamemodify(bufname(v:val.bufnr), ":p") =~# "^" . escape(getcwd(), "\\")'), 'r')
+    endif
+    lopen
+  elseif len(l:filtered) == 1
+    " Single Match: Direct clean buffer switch (Preserves a single Ctrl+O step)
+    execute "edit " . fnameescape(l:filtered[0].filename)
+    if l:filtered[0].cmd =~ '^\d\+$'
+      execute l:filtered[0].cmd
+    else
+      execute 'silent! ' . l:filtered[0].cmd
+    endif
+  else
+    echo "No matching tags found " . (a:global_search ? "globally." : "within current directory.")
+  endif
+endfunction
+
+" Keymaps
+nnoremap <silent> <C-]> :call SmartTagJump(0)<CR>
+nnoremap <silent> g<C-]> :call SmartTagJump(1)<CR>
 
 " === Loading Packages
 let s:vim_dir = expand('~/.vim')
@@ -452,6 +492,17 @@ let g:ale_linters = {
 let g:ale_linters_ignore = {
 \   'scala': ['*'],
 \}
+
+" Allow ALE to autoimport completion entries from LSP servers
+let g:ale_completion_autoimport = 1
+
+" Register LSP server for Godot:
+call ale#linter#Define('gdscript', {
+\   'name': 'godot',
+\   'lsp': 'socket',
+\   'address': '127.0.0.1:6005',
+\   'project_root': 'project.godot',
+\})
 
 " Force using global pyright-langserver (important!)
 let g:ale_python_pyright_use_global = 1

@@ -19,3 +19,9 @@
 [submodule ".vim/pack/git-plugins/start/vim-abolish"]
 	path = .vim/pack/git-plugins/start/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
+[submodule ".vim/pack/git-plugins/start/vim-gutentags"]
+	path = .vim/pack/git-plugins/start/vim-gutentags
+	url = https://github.com/ludovicchabant/vim-gutentags.git
+[submodule ".vim/pack/git-plugins/start/vim-godot"]
+	path = .vim/pack/git-plugins/start/vim-godot
+	url = https://github.com/habamax/vim-godot

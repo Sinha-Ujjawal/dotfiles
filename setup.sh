@@ -137,6 +137,7 @@ fi
 
 # Setup yank and yank-overflow
 remove_if_present "$HOME/bin/yank"
+remove_if_present "$HOME/bin/yank-overflow"
 ln -s "$DOTFILES_DIR/yank.sh" "$HOME/bin/yank"
 chmod +x "$HOME/bin/yank"
 ln -s "$DOTFILES_DIR/yank-overflow.sh" "$HOME/bin/yank-overflow"
@@ -184,6 +185,12 @@ confirm_and_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig" false
 
 # .gf2
 confirm_and_link "$DOTFILES_DIR/.config/gf2_config.ini" "$HOME/.config/gf2_config.ini" false
+
+# xdg-desktop-portal config
+confirm_and_link "$DOTFILES_DIR/.config/xdg-desktop-portal" "$HOME/.config/xdg-desktop-portal" true
+
+# mimeapps.list
+confirm_and_link "$DOTFILES_DIR/.config/mimeapps.list" "$HOME/.config/mimeapps.list" false
 
 echo ""
 echo "Setup process finished."

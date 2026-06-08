@@ -25,3 +25,6 @@
 [submodule ".vim/pack/git-plugins/start/vim-godot"]
 	path = .vim/pack/git-plugins/start/vim-godot
 	url = https://github.com/habamax/vim-godot
+[submodule ".vim/pack/git-plugins/start/vim-gitgutter"]
+	path = .vim/pack/git-plugins/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git

@@ -590,6 +590,7 @@ vnoremap <silent> <C-c> "0y:call Yank(@0)<CR>
 
 " === vim.gitgutter ===
 let g:gitgutter_map_keys = 0
+let g:gitgutter_diff_base = 'HEAD'
 set updatetime=100
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3

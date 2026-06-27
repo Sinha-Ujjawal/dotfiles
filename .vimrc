@@ -268,7 +268,7 @@ function! ToggleComment() range
     let l:open = s:comment_map[l:ft][0]
     let l:close = s:comment_map[l:ft][1]
 
-    " 2. Calculate minimum indentation for vertical alignment
+    " 2. Calculate minimum indentation using virtual columns (handles tabs)
     let l:min_indent = 999
     for l:lnum in range(a:firstline, a:lastline)
         let l:line = getline(l:lnum)
@@ -278,9 +278,14 @@ function! ToggleComment() range
     endfor
     if l:min_indent == 999 | let l:min_indent = 0 | endif
 
-    " 3. Determine if the block is already commented
+    " 3. Match comments safely using virtual column positioning
     let l:all_commented = 1
-    let l:open_regex = '^\s\{' . l:min_indent . '\}' . escape(l:open, '/*^$')
+    " Match anything up to the dynamic min_indent column, followed by the comment sign
+    let l:open_regex = '^\s*\%>' . l:min_indent . 'v' . escape(l:open, '/*^$')
+    if l:min_indent == 0
+        let l:open_regex = '^' . escape(l:open, '/*^$')
+    endif
+
     for l:lnum in range(a:firstline, a:lastline)
         let l:line = getline(l:lnum)
         if l:line =~ '^\s*$' | continue | endif
@@ -295,25 +300,27 @@ function! ToggleComment() range
     let l:esc_close = escape(l:close, '/*^$')
 
     if l:all_commented
-        " Remove opening tag at min_indent and optional closing tag at line end
         for l:lnum in range(a:firstline, a:lastline)
             let l:line = getline(l:lnum)
-            " Remove opening tag and one trailing space if it exists
-            let l:line = substitute(l:line, '^\(\s\{' . l:min_indent . '\}\)' . l:esc_open . '\s\?', '\1', '')
-            " Remove closing tag and one leading space if it exists
+            " Strip the comment marker regardless of whether it's preceded by tabs or spaces
+            let l:line = substitute(l:line, '^\(\s*\)' . l:esc_open . '\s\?', '\1', '')
             if l:close != ''
                 let l:line = substitute(l:line, '\s\?' . l:esc_close . '\s*$', '', '')
             endif
             call setline(l:lnum, l:line)
         endfor
     else
-        " Add opening tag at min_indent and closing tag at end of line
         for l:lnum in range(a:firstline, a:lastline)
             let l:line = getline(l:lnum)
             if l:line =~ '^\s*$' | continue | endif
-            " Insert opening tag
-            let l:line = substitute(l:line, '^\(\s\{' . l:min_indent . '\}\)', '\1' . l:open . ' ', '')
-            " Append closing tag
+
+            " Inject the comment symbol precisely at the calculated column boundary
+            if l:min_indent == 0
+                let l:line = substitute(l:line, '^', l:open . ' ', '')
+            else
+                let l:line = substitute(l:line, '^\(\s*\%' . (l:min_indent + 1) . 'v\)', '\1' . l:open . ' ', '')
+            endif
+
             if l:close != ''
                 let l:line = l:line . l:close
             endif

@@ -7,9 +7,9 @@
 !README.md
 !pyrightconfig.json
 !.clang-format
-!.vim/colors/
+!.vim/colors/*
 !.config/nvim/init.vim
-!.config/nvim/colors/
+!.config/nvim/colors/*
 !.config/nvim/pack/
 !usr/
 !freebsd-service-files/

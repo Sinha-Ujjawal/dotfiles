@@ -150,6 +150,7 @@ confirm_and_link "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim" true
 
 # Tmux config
 confirm_and_link "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf" false
+confirm_and_link "$DOTFILES_DIR/.tmux" "$HOME/.tmux" true
 
 # Aider config
 confirm_and_link "$DOTFILES_DIR/.aider.conf.yml" "$HOME/.aider.conf.yml" false

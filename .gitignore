@@ -4,6 +4,7 @@
 !.vim/pack/git-plugins/start/*
 !.vimrc
 !.tmux.conf
+!.tmux/*
 !README.md
 !pyrightconfig.json
 !.clang-format

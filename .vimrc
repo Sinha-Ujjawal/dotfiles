@@ -176,7 +176,7 @@ endif
 
 set t_Co=256
 set background=dark
-for cs in ['GruberDarker', 'retrobox', 'zaibatsu', 'industry', 'habamax']
+for cs in ['zaibatsu', 'GruberDarker', 'retrobox', 'industry', 'habamax']
   try
     execute 'colorscheme ' . cs
     break

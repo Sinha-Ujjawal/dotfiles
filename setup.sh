@@ -193,6 +193,12 @@ confirm_and_link "$DOTFILES_DIR/.config/xdg-desktop-portal" "$HOME/.config/xdg-d
 # mimeapps.list
 confirm_and_link "$DOTFILES_DIR/.config/mimeapps.list" "$HOME/.config/mimeapps.list" false
 
+# Dockerfile.vim
+echo "Installing Dockerfile.vim"
+cd $DOTFILES_DIR/Dockerfile.vim/
+make install
+cd -
+
 echo ""
 echo "Setup process finished."
 

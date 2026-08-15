@@ -28,3 +28,9 @@
 [submodule ".vim/pack/git-plugins/start/vim-gitgutter"]
 	path = .vim/pack/git-plugins/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "Dockerfile.vim"]
+	path = Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim.git
+[submodule ".vim/pack/git-plugins/start/markdown-preview.nvim"]
+	path = .vim/pack/git-plugins/start/markdown-preview.nvim
+	url = https://github.com/iamcco/markdown-preview.nvim.git

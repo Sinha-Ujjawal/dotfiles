@@ -478,7 +478,7 @@ set omnifunc=ale#completion#OmniFunc
 nmap <silent> K :ALEHover<CR>
 
 let g:ale_linters = {
-\   'python': ['ruff', 'pyright'],
+\   'python': ['pyright'],
 \   'go': ['gopls', 'golangci-lint', 'go vet', 'go build'],
 \   'rust': ['rustc'],
 \   'c': [],

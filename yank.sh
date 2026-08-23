@@ -15,8 +15,12 @@
 # 7 bytes are occupied by a "\033]52;c;" header, 1 byte by a "\a" footer, and
 # 99_992 bytes by the base64-encoded result of 74_994 bytes of copyable text.
 #
-# If input exceeds 74_994 bytes, the content is saved to YANK_OVERFLOW_FILE
-# and a notification message is yanked instead so you see it on paste.
+# If input exceeds 74_994 bytes, the OSC 52 (terminal) copy is replaced with a
+# notification message and the content is saved to YANK_OVERFLOW_FILE, but the
+# local side channels (tmux buffer, X11 clipboard) still receive the FULL
+# content, since the 74_994-byte cap is purely a limitation of the OSC 52
+# escape-sequence encoding and does not apply to tmux load-buffer or
+# xsel/xclip, which read arbitrarily large input directly.
 #
 # Use --chunks to send a large file in sequential OSC 52 chunks, prompting
 # for 'y' between each chunk:
@@ -113,16 +117,20 @@ trap 'rm -f "$tmpfile"' EXIT
 cat "$@" > "$tmpfile"
 input() { cat "$tmpfile"; }
 
-maybe() { known "$1" && input | "$@"; }
+maybe() { known "$1" && input | "$@" 2>/dev/null; }
 
 max=74994
 len=$(input | wc -c)
 
+# Copies the full original content (not subject to the OSC 52 size limit) to
+# any available local side channels: tmux's paste buffer and the X11
+# clipboard. Safe to call regardless of whether the OSC 52 write to the
+# terminal succeeded, was truncated, or was replaced with a notification.
 copy_side_channels() {
   test -n "$TMUX" && maybe tmux load-buffer -
-  test -n "$DISPLAY" && alive xhost && {
+  if [ -n "$DISPLAY" ]; then
     maybe xsel -i -b || maybe xclip -sel c
-  }
+  fi
   test -f /c/Windows/System32/clip && {
     maybe /c/windows/System32/clip
   }
@@ -133,17 +141,14 @@ if [ "$len" -le "$max" ]; then
   printf_escape "\033]52;c;$(input | base64 | tr -d '\r\n')\a"
   copy_side_channels
 else
-  # Overflow: save content to file, yank a notification message instead
+  # Overflow: the terminal (OSC 52) can't carry content this large, so save
+  # it to a file and yank a notification message to the terminal instead.
+  # Local side channels (tmux buffer, X11 clipboard) have no such limit, so
+  # they still get the full content via copy_side_channels below.
   input > "$YANK_OVERFLOW_FILE"
   msg="[Yank overflow: content too large ($len bytes). Saved to $YANK_OVERFLOW_FILE — run: yank --chunks]"
   printf_escape "\033]52;c;$(printf '%s' "$msg" | base64 | tr -d '\r\n')\a"
-  # Overwrite tmux's buffer with the notification message too
-  test -n "$TMUX" && printf '%s' "$msg" | tmux load-buffer -
-  # Overwrite X11 clipboard too if available
-  test -n "$DISPLAY" && alive xhost && {
-    printf '%s' "$msg" | xsel -i -b 2>/dev/null || \
-    printf '%s' "$msg" | xclip -sel c 2>/dev/null
-  }
+  copy_side_channels
 fi
 
 exit 0

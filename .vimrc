@@ -480,7 +480,7 @@ nmap <silent> K :ALEHover<CR>
 let g:ale_linters = {
 \   'python': ['pyright'],
 \   'go': ['gopls', 'golangci-lint', 'go vet', 'go build'],
-\   'rust': ['rustc'],
+\   'rust': ['analyzer'],
 \   'c': [],
 \   'h': [],
 \   'cpp': [],
@@ -534,6 +534,16 @@ let g:ale_disable_lsp = 0
 
 let g:ale_go_golangci_lint_executable = 'golangci-lint'
 let g:ale_go_golangci_lint_options = '--fast'
+
+augroup ale_python_completion
+    autocmd!
+    autocmd FileType python setlocal omnifunc=ale#completion#OmniFunc
+augroup END
+
+augroup ale_go_completion
+    autocmd!
+    autocmd FileType go setlocal omnifunc=ale#completion#OmniFunc
+augroup END
 
 " === Vim LSP Configuration ===
 if executable('metals')

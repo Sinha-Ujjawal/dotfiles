@@ -221,6 +221,7 @@ let s:comment_map = {
     \ 'tmux'      : ['#'    , ''    ],
     \ 'toml'      : ['#'    , ''    ],
     \ 'yaml'      : ['#'    , ''    ],
+    \ 'yaml.dockerfile'      : ['#'    , ''    ],
     \ 'zsh'       : ['#'    , ''    ],
     \ 'bib'       : ['%'    , ''    ],
     \ 'erlang'    : ['%'    , ''    ],

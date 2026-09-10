@@ -114,3 +114,5 @@ compress() {
     echo "Usage: compress <output_file> <input_file_or_dir>"
   fi
 }
+
+export GTK_THEME="Adwaita:dark"

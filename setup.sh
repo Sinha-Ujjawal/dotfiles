@@ -173,6 +173,9 @@ confirm_and_link "$DOTFILES_DIR/.config/kitty" "$HOME/.config/kitty" true
 # cspell config
 confirm_and_link "$DOTFILES_DIR/.config/cspell" "$HOME/.config/cspell" true
 
+# ctags config
+confirm_and_link "$DOTFILES_DIR/.config/ctags" "$HOME/.config/ctags" true
+
 # Inputrc, Bashrc and Zshrc config
 if [[ ! -f "$HOME/.inputrc" ]]; then
     touch "$HOME/.inputrc"

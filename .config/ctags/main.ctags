@@ -1,0 +1,8 @@
+# C/C++
+--languages=C,C++
+--c-kinds=+pdsgetm
+--c++-kinds=+pdsgetm
+
+# Autocomplete metadata
+--fields=+iaS
+--extras=+q

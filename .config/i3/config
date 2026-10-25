@@ -1,4 +1,4 @@
-# INSTALL: sudo apt install i3 dmenu i3blocks nmtui bluetoothctl brightnessctl gnome-calendar alsa-utils pavucontrol kitty flameshot picom
+# INSTALL: sudo apt install -y i3 suckless-tools i3blocks network-manager bluez brightnessctl gnome-calendar alsa-utils pavucontrol kitty flameshot picom
 
 set $mod Mod4
 

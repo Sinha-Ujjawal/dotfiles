@@ -1,5 +1,7 @@
-# C/C++
---languages=C,C++
+# Languages
+--languages=C,C++,python
+
+# C/C++ flags
 --c-kinds=+pdsgetm
 --c++-kinds=+pdsgetm
 

@@ -97,6 +97,10 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 
+# move forward and backward in workspace
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
@@ -136,6 +140,55 @@ mode "resize" {
 }
 
 bindsym $mod+Shift+r mode "resize"
+
+# swap windows between two workspaces (respecting original window sizes)
+mode "swap" {
+        bindsym 1 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 1", mode "default"
+        bindsym 2 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 2", mode "default"
+        bindsym 3 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 3", mode "default"
+        bindsym 4 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 4", mode "default"
+        bindsym 5 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 5", mode "default"
+        bindsym 6 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 6", mode "default"
+        bindsym 7 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 7", mode "default"
+        bindsym 8 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 8", mode "default"
+        bindsym 9 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 9", mode "default"
+        bindsym 0 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 10", mode "default"
+
+        bindsym $mod+1 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 1", mode "default"
+        bindsym $mod+2 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 2", mode "default"
+        bindsym $mod+3 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 3", mode "default"
+        bindsym $mod+4 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 4", mode "default"
+        bindsym $mod+5 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 5", mode "default"
+        bindsym $mod+6 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 6", mode "default"
+        bindsym $mod+7 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 7", mode "default"
+        bindsym $mod+8 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 8", mode "default"
+        bindsym $mod+9 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 9", mode "default"
+        bindsym $mod+0 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 10", mode "default"
+
+        bindsym $mod+Shift+1 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 1", mode "default"
+        bindsym $mod+Shift+2 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 2", mode "default"
+        bindsym $mod+Shift+3 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 3", mode "default"
+        bindsym $mod+Shift+4 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 4", mode "default"
+        bindsym $mod+Shift+5 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 5", mode "default"
+        bindsym $mod+Shift+6 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 6", mode "default"
+        bindsym $mod+Shift+7 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 7", mode "default"
+        bindsym $mod+Shift+8 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 8", mode "default"
+        bindsym $mod+Shift+9 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 9", mode "default"
+        bindsym $mod+Shift+0 exec --no-startup-id "$HOME/.config/i3/swap_workspace.py 10", mode "default"
+
+        # swap with next / previous neighbor workspace
+        bindsym $mod+Tab exec --no-startup-id "$HOME/.config/i3/swap_workspace.py next", mode "default"
+        bindsym $mod+Shift+Tab exec --no-startup-id "$HOME/.config/i3/swap_workspace.py prev", mode "default"
+        bindsym Tab exec --no-startup-id "$HOME/.config/i3/swap_workspace.py next", mode "default"
+        bindsym Shift+Tab exec --no-startup-id "$HOME/.config/i3/swap_workspace.py prev", mode "default"
+
+        # back to normal: Enter or Escape or $mod+Shift+s
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+Shift+s mode "default"
+}
+
+bindsym $mod+Shift+s mode "swap"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

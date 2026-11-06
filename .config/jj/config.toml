@@ -1,0 +1,7 @@
+[ui]
+    # For commit messages
+    default-editor = "vim"
+
+[user]
+    name = "Sinha-Ujjawal"
+    email = "ujjawalsinhacool16021998@gmail.com"

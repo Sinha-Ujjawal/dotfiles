@@ -145,7 +145,12 @@ chmod +x "$HOME/bin/yank-overflow"
 
 # Vim and Neovim config
 confirm_and_link "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc" false
-confirm_and_link "$DOTFILES_DIR/.vim" "$HOME/.vim" true
+for customSnippetFilePath in "$DOTFILES_DIR/.vim/custom-snippets"/*; do
+    customSnippetFileName=$(basename "$customSnippetFilePath")
+    confirm_and_link "$customSnippetFilePath" "$HOME/.vim/snippets/$customSnippetFileName" false
+done
+confirm_and_link "$DOTFILES_DIR/.vim/colors" "$HOME/.vim/colors" true
+confirm_and_link "$DOTFILES_DIR/.vim/pack" "$HOME/.vim/pack" true
 confirm_and_link "$DOTFILES_DIR/.config/nvim" "$HOME/.config/nvim" true
 
 # Tmux config
@@ -201,6 +206,9 @@ echo "Installing Dockerfile.vim"
 cd $DOTFILES_DIR/Dockerfile.vim/
 make install
 cd -
+
+# JJ config
+confirm_and_link "$DOTFILES_DIR/.config/jj" "$HOME/.config/jj" true
 
 echo ""
 echo "Setup process finished."
